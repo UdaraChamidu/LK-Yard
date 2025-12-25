@@ -41,6 +41,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (email, password, fullName) => {
+    try {
+      await base44.auth.register(email, password, fullName);
+      // After register, fetch user data
+      const userData = await base44.auth.me();
+      setUser(userData);
+      return true;
+    } catch (error) {
+       console.error('Registration failed:', error);
+       throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       await base44.auth.logout();
@@ -54,6 +67,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    register,
     logout,
     isAuthenticated: !!user,
   };

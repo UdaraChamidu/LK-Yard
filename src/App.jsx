@@ -21,6 +21,7 @@ import RequestQuote from './pages/RequestQuote';
 import Search from './pages/Search';
 import Settings from './pages/Settings';
 import Subcontractors from './pages/Subcontractors';
+import AdminTools from './pages/AdminTools';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -130,6 +131,16 @@ function App() {
             } 
           />
 
+          <Route 
+            path="/AdminTools" 
+            element={
+              <ProtectedRoute>
+                <LayoutWrapper pageName="Admin Tools">
+                  <AdminTools />
+                </LayoutWrapper>
+              </ProtectedRoute>
+            } 
+          />
           {/* Catch all redirect to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

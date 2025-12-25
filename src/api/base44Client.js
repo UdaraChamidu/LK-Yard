@@ -1,143 +1,219 @@
-const STORAGE_KEY = 'base44_auth_user';
+import { auth, db, storage } from '@/lib/firebase';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from 'firebase/auth';
+import { 
+  collection, 
+  query, 
+  where, 
+  getDocs, 
+  getDoc,
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  doc,
+  orderBy,
+  limit,
+  serverTimestamp
+} from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const COLLECTION_MAP = {
+  Listing: 'listings',
+  Booking: 'bookings',
+  Favorite: 'favorites',
+  LeadRequest: 'lead_requests',
+  Message: 'messages',
+  Profile: 'profiles',
+  Report: 'reports',
+  Review: 'reviews',
+  User: 'users'
+};
+
+const getCollection = (entityName) => collection(db, COLLECTION_MAP[entityName]);
+
+// Helper to convert Firestore doc to object with ID
+const docToObj = (doc) => ({ id: doc.id, ...doc.data() });
 
 export const base44 = {
   auth: {
-    isAuthenticated: async () => {
-      const user = localStorage.getItem(STORAGE_KEY);
-      return !!user;
-    },
+    // Check if user is currently signed in
+    isAuthenticated: () => new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        unsubscribe();
+        resolve(!!user);
+      });
+    }),
+    
+    // Get current user details combining Auth and Firestore Profile
     me: async () => {
-      const user = localStorage.getItem(STORAGE_KEY);
-      if (!user) throw new Error('Not authenticated');
-      return JSON.parse(user);
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          unsubscribe();
+          if (!user) {
+            reject(new Error('Not authenticated'));
+            return;
+          }
+          try {
+            // Fetch additional user details from 'users' collection or 'profiles'
+            // For now, returning basic auth info enriched with a profile check
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
+            
+            resolve({
+              uid: user.uid,
+              email: user.email,
+              full_name: user.displayName || user.email.split('@')[0],
+              ...(userDoc.exists() ? userDoc.data() : {})
+            });
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
     },
+
     login: async (email, password) => {
-      // Mock login - accept any credentials, but demonstrate a "demo" user
-      const user = {
-        id: 'user_123',
-        email: email || 'demo@lkyard.lk',
-        full_name: 'Demo User',
-        role: 'admin',
-        location: 'Colombo',
-        phone: '+94771234567',
-        avatar_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69480f5d3b7800a9469b8931/e59d0284e_image.png'
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-      return user;
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return userCredential.user;
     },
+
+    register: async (email, password, fullName) => {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Create a user profile document
+      await base44.entities.User.create({
+        uid: userCredential.user.uid,
+        email: email,
+        full_name: fullName,
+        role: 'user', // Default role
+        created_at: serverTimestamp()
+      });
+      return userCredential.user;
+    },
+
     logout: async () => {
-      localStorage.removeItem(STORAGE_KEY);
+      await signOut(auth);
     },
-    redirectToLogin: () => {
-      window.location.href = '/Login';
+
+    redirectToLogin: (returnUrl) => {
+       // In a real app, you might use the router here, but window.location is safe fallback
+       window.location.href = `/Login?returnUrl=${encodeURIComponent(returnUrl || '/')}`;
     },
+
     updateMe: async (data) => {
-      const currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      const updatedUser = { ...currentUser, ...data };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser));
-      return updatedUser;
+       const user = auth.currentUser;
+       if (!user) throw new Error('No user logged in');
+       
+       // Update 'users' collection
+       const userDocRef = doc(db, 'users', user.uid);
+       // Allow creating if it doesn't exist (set with merge is safer but update is requested)
+       // We'll use set with merge behavior manually via Generic Update helper if doc exists
+       // Or handle existence check. Simplified here:
+       await updateDoc(userDocRef, data).catch(async (err) => {
+           // If doc missing, create it
+           if (err.code === 'not-found') {
+               const { setDoc } = await import('firebase/firestore');
+               await setDoc(userDocRef, data);
+           } else {
+               throw err;
+           }
+       });
+       return { ...data, uid: user.uid };
     }
   },
+
   entities: {
-    Listing: {
-      filter: async () => {
-          // Return some mock listings
-          return [
-              {
-                  id: '1',
-                  title: 'Hilti TE 70-ATC/AVR Combi Hammer',
-                  price: 150000,
-                  type: 'SALE',
-                  category: 'Tools',
-                  location: 'Colombo',
-                  image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                  images: ['https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-                  description: 'Heavy duty combi hammer for drilling and chiseling.',
-                  seller: { name: 'Build Corp', rating: 4.8 },
-                  created_at: new Date().toISOString()
-              },
-               {
-                  id: '2',
-                  title: 'Excavator for Rent - CAT 320',
-                  price: 25000,
-                  type: 'RENT',
-                  category: 'Heavy Machinery',
-                  location: 'Kandy',
-                  image: 'https://images.unsplash.com/photo-1582226294371-33157297d025?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                  images: ['https://images.unsplash.com/photo-1582226294371-33157297d025?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-                  description: 'Daily rental rate. Operator included.',
-                   seller: { name: 'Kandy Construction', rating: 4.5 },
-                  created_at: new Date().toISOString()
-              }
-          ]
-      },
-      list: async () => [],
-      create: async (data) => ({ id: Math.random().toString(), ...data }),
-      update: async (id, data) => ({ id, ...data }),
-      delete: async () => true,
-      get: async (id) => ({
-          id: id,
-          title: 'Hilti TE 70-ATC/AVR Combi Hammer',
-          price: 150000,
-          type: 'SALE',
-          category: 'Tools',
-          location: 'Colombo',
-          images: ['https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-          description: 'Heavy duty combi hammer for drilling and chiseling.',
-          seller: { name: 'Build Corp', rating: 4.8, id: 'seller_1' },
-          created_at: new Date().toISOString()
-      })
-    },
-    Booking: {
-      filter: async () => [],
-      create: async (data) => data
-    },
-    Favorite: {
-      filter: async () => [],
-      create: async (data) => data,
-      delete: async () => true
-    },
-    LeadRequest: {
-      filter: async () => [],
-      create: async (data) => data
-    },
-    Message: {
-      filter: async () => [],
-      create: async (data) => data
-    },
-    Profile: {
-      filter: async () => [],
-      list: async () => [],
-      update: async (id, data) => ({ id, ...data }),
-       get: async (id) => ({
-        id: id,
-        full_name: 'John Doe',
-        role: 'Professional',
-        rating: 4.8,
-        location: 'Colombo',
-        about: 'Experienced architect with 10 years of field work.',
-        skills: ['Architecture', 'Design', 'Planning'],
-        portfolio: [
-            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        ]
-      })
-    },
-    Report: {
-      create: async (data) => data
-    },
-    Review: {
-      filter: async () => [],
-      create: async (data) => data,
-      update: async (id, data) => ({ id, ...data }),
-      delete: async () => true
-    },
-    User: {
-      list: async () => []
-    }
+    // Generic handlers for all entities
+    ...Object.keys(COLLECTION_MAP).reduce((acc, entity) => {
+      acc[entity] = {
+        filter: async (filters = {}, sortField = null, limitCount = 50) => {
+          let q = getCollection(entity);
+          
+          // Apply Filters
+          Object.entries(filters).forEach(([key, value]) => {
+             q = query(q, where(key, '==', value));
+          });
+          
+          // Apply Sort (NOTE: Firestore requires indexes for compound queries)
+          if (sortField) {
+              const direction = sortField.startsWith('-') ? 'desc' : 'asc';
+              const field = sortField.replace(/^-/, '');
+              q = query(q, orderBy(field, direction));
+          }
+
+          // Apply Limit
+          if (limitCount) {
+             q = query(q, limit(limitCount));
+          }
+
+          const snapshot = await getDocs(q);
+          return snapshot.docs.map(docToObj);
+        },
+
+        list: async (sortField = null, limitCount = 50) => {
+           let q = getCollection(entity);
+           if (sortField) {
+              const direction = sortField.startsWith('-') ? 'desc' : 'asc';
+              const field = sortField.replace(/^-/, '');
+              q = query(q, orderBy(field, direction));
+           }
+           if (limitCount) {
+              q = query(q, limit(limitCount));
+           }
+           const snapshot = await getDocs(q);
+           return snapshot.docs.map(docToObj);
+        },
+
+        get: async (id) => {
+          const docRef = doc(db, COLLECTION_MAP[entity], id);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            return docToObj(docSnap);
+          } else {
+             throw new Error(`${entity} not found`);
+          }
+        },
+
+        create: async (data) => {
+          const colRef = getCollection(entity);
+          const docRef = await addDoc(colRef, {
+            ...data,
+            created_date: new Date().toISOString(), // Fallback for simple date handling
+            created_at: serverTimestamp()
+          });
+          return { id: docRef.id, ...data };
+        },
+
+        update: async (id, data) => {
+          const docRef = doc(db, COLLECTION_MAP[entity], id);
+          await updateDoc(docRef, {
+             ...data,
+             updated_date: new Date().toISOString()
+          });
+          return { id, ...data };
+        },
+
+        delete: async (id) => {
+          const docRef = doc(db, COLLECTION_MAP[entity], id);
+          await deleteDoc(docRef);
+          return true;
+        }
+      };
+      return acc;
+    }, {})
   },
+
   integrations: {
     Core: {
-      UploadFile: async ({ file }) => ({ file_url: URL.createObjectURL(file) })
+      UploadFile: async ({ file }) => {
+        const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(snapshot.ref);
+        return { file_url: url };
+      }
     }
   }
 };

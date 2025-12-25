@@ -17,7 +17,7 @@ export default function Register() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth(); // We'll log them in after registration (mock)
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -37,9 +37,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // In a real app, this would be a register call.
-      // For mock, we'll just log them in with the new credentials.
-      await login(formData.email, formData.password);
+      await register(formData.email, formData.password, formData.fullName);
       navigate(createPageUrl('Dashboard'));
     } catch (err) {
       setError('Registration failed. Please try again.');
