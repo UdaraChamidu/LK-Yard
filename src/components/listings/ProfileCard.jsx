@@ -94,7 +94,7 @@ export default function ProfileCard({ profile, showActions = true }) {
 
         {showActions && (
           <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
-            <Link to={createPageUrl(`ProfileDetail?id=${profile.id}`)} className="flex-1">
+            <Link to={createPageUrl(`Profile/${profile.id}`)} className="flex-1">
               <Button variant="outline" className="w-full text-sm">
                 View Profile
               </Button>

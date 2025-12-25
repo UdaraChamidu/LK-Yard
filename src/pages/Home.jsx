@@ -114,74 +114,15 @@ export default function Home() {
 
             {/* Listings Grid */}
             {isLoading ? (
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="bg-gray-100 rounded-xl h-64 animate-pulse" />
                 ))}
               </div>
             ) : filteredListings.length > 0 ? (
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredListings.map((listing) => (
-                  <Link
-                    key={listing.id}
-                    to={createPageUrl(`ListingDetail?id=${listing.id}`)}
-                    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={listing.images?.[0] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600'}
-                        alt={listing.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {/* Badges */}
-                      <div className="absolute top-3 left-3 flex gap-2">
-                        {listing.category && (
-                          <Badge className="bg-[#F47524] text-white text-xs capitalize">
-                            {listing.category.replace('_', ' ')}
-                          </Badge>
-                        )}
-                        {listing.featured && (
-                          <Badge className="bg-purple-600 text-white text-xs">
-                            Featured
-                          </Badge>
-                        )}
-                        {listing.owner_verified && (
-                          <Badge className="bg-green-600 text-white text-xs">
-                            Verified
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <div className="p-5">
-                      <h3 className="font-semibold text-[#111111] line-clamp-2 mb-2 group-hover:text-[#F47524] transition-colors">
-                        {listing.title}
-                      </h3>
-                      <p className="text-sm text-[#616367] line-clamp-2 mb-4">
-                        {listing.description}
-                      </p>
-                      
-                      {/* Stats */}
-                      <div className="flex items-center justify-between text-sm text-[#616367]">
-                        <div className="flex items-center gap-4">
-                          <span className="flex items-center gap-1">
-                            <ThumbsUp className="h-4 w-4" />
-                            {listing.featured ? '245' : '0'}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Eye className="h-4 w-4" />
-                            {listing.views || 0}
-                          </span>
-                        </div>
-                        {listing.created_date && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            {formatDistanceToNow(new Date(listing.created_date), { addSuffix: true })}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                  <ListingCard key={listing.id} listing={listing} />
                 ))}
               </div>
             ) : (

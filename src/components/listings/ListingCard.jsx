@@ -22,7 +22,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
   if (variant === 'list') {
     return (
       <Link
-        to={createPageUrl(`ListingDetail?id=${listing.id}`)}
+        to={createPageUrl(`Listing/${listing.id}`)}
         className="flex gap-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all border border-gray-100"
       >
         <div className="relative w-32 h-32 flex-shrink-0">
@@ -66,7 +66,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
 
   return (
     <Link
-      to={createPageUrl(`ListingDetail?id=${listing.id}`)}
+      to={createPageUrl(`Listing/${listing.id}`)}
       className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
     >
       <div className="relative aspect-[4/3] overflow-hidden">

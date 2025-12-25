@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -26,8 +26,7 @@ import ReviewForm from '../components/reviews/ReviewForm';
 export default function ListingDetail() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const urlParams = new URLSearchParams(window.location.search);
-  const listingId = urlParams.get('id');
+  const { id: listingId } = useParams();
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isReportOpen, setIsReportOpen] = useState(false);
@@ -50,8 +49,11 @@ export default function ListingDetail() {
   const { data: listing, isLoading } = useQuery({
     queryKey: ['listing', listingId],
     queryFn: async () => {
-      const listings = await base44.entities.Listing.filter({ id: listingId });
-      return listings[0];
+      try {
+        return await base44.entities.Listing.get(listingId);
+      } catch (error) {
+        return null;
+      }
     },
     enabled: !!listingId,
   });

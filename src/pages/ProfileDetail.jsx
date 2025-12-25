@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -15,14 +15,16 @@ import ReviewForm from '../components/reviews/ReviewForm';
 
 export default function ProfileDetail() {
   const navigate = useNavigate();
-  const urlParams = new URLSearchParams(window.location.search);
-  const profileId = urlParams.get('id');
+  const { id: profileId } = useParams();
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', profileId],
     queryFn: async () => {
-      const profiles = await base44.entities.Profile.filter({ id: profileId });
-      return profiles[0];
+      try {
+        return await base44.entities.Profile.get(profileId);
+      } catch (error) {
+        return null;
+      }
     },
     enabled: !!profileId,
   });
