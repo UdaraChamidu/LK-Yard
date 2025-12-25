@@ -1,0 +1,55 @@
+{
+  "name": "LeadRequest",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Target contractor/professional profile"
+    },
+    "profile_name": {
+      "type": "string"
+    },
+    "profile_email": {
+      "type": "string"
+    },
+    "requester_email": {
+      "type": "string"
+    },
+    "requester_name": {
+      "type": "string"
+    },
+    "requester_phone": {
+      "type": "string"
+    },
+    "service_type": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "budget_range": {
+      "type": "string"
+    },
+    "timeline": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "quoted",
+        "closed"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "profile_id",
+    "requester_email",
+    "description"
+  ]
+}

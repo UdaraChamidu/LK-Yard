@@ -1,0 +1,53 @@
+{
+  "name": "Report",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "listing",
+        "profile",
+        "review",
+        "message"
+      ]
+    },
+    "reporter_email": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "spam",
+        "inappropriate",
+        "fraud",
+        "offensive",
+        "other"
+      ]
+    },
+    "details": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewed",
+        "resolved",
+        "dismissed"
+      ],
+      "default": "pending"
+    },
+    "admin_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_id",
+    "target_type",
+    "reporter_email",
+    "reason"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Favorite",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who saved the listing"
+    },
+    "listing_id": {
+      "type": "string",
+      "description": "Saved listing ID"
+    },
+    "listing_title": {
+      "type": "string"
+    },
+    "listing_image": {
+      "type": "string"
+    },
+    "listing_price": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string",
+      "description": "User's private notes about this listing"
+    }
+  },
+  "required": [
+    "user_email",
+    "listing_id"
+  ]
+}

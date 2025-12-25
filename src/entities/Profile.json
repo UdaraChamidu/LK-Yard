@@ -1,0 +1,161 @@
+{
+  "name": "Profile",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email reference"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "buyer",
+        "seller",
+        "subcontractor",
+        "professional",
+        "machine_owner"
+      ],
+      "description": "User role"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "profile_image": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "string"
+    },
+    "location_text": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "main_category": {
+      "type": "string",
+      "enum": [
+        "earthwork_excavation",
+        "concrete_structural",
+        "masonry_blockwork",
+        "flooring_tiling",
+        "finishing",
+        "roofing_ceiling",
+        "doors_windows_metal",
+        "plumbing_electrical",
+        "landscaping_external",
+        "testing_maintenance"
+      ],
+      "description": "Main service category (Layer 1)"
+    },
+    "service_groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Service groups within category (Layer 2)"
+    },
+    "detailed_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific technical skills (Layer 3)"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Legacy skills field"
+    },
+    "designation": {
+      "type": "string",
+      "description": "Professional title"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "portfolio": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "hourly_rate": {
+      "type": "number"
+    },
+    "daily_rate": {
+      "type": "number"
+    },
+    "service_areas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cv_url": {
+      "type": "string"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Verification documents"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "rating": {
+      "type": "number",
+      "default": 0
+    },
+    "rating_count": {
+      "type": "number",
+      "default": 0
+    },
+    "available": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "user_email",
+    "role",
+    "display_name"
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "name": "Listing",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "item",
+        "service",
+        "machine",
+        "job"
+      ],
+      "description": "Type of listing"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "tools_materials",
+        "subcontractors",
+        "machines",
+        "professionals",
+        "jobs"
+      ],
+      "description": "Main category"
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Subcategory within main category"
+    },
+    "title": {
+      "type": "string",
+      "description": "Listing title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in LKR"
+    },
+    "price_type": {
+      "type": "string",
+      "enum": [
+        "fixed",
+        "negotiable",
+        "hourly",
+        "daily",
+        "monthly"
+      ],
+      "default": "fixed"
+    },
+    "condition": {
+      "type": "string",
+      "enum": [
+        "new",
+        "like_new",
+        "good",
+        "fair",
+        "used"
+      ],
+      "description": "Item condition"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Image URLs"
+    },
+    "location_text": {
+      "type": "string",
+      "description": "Location description"
+    },
+    "city": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "sold",
+        "inactive",
+        "pending"
+      ],
+      "default": "active"
+    },
+    "views": {
+      "type": "number",
+      "default": 0
+    },
+    "owner_name": {
+      "type": "string"
+    },
+    "owner_phone": {
+      "type": "string"
+    },
+    "owner_whatsapp": {
+      "type": "string"
+    },
+    "owner_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "specifications": {
+      "type": "object",
+      "description": "Additional specs as key-value pairs"
+    },
+    "availability_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "availability_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "boosted_until": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "type",
+    "category",
+    "title",
+    "description"
+  ]
+}

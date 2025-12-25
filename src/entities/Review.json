@@ -1,0 +1,44 @@
+{
+  "name": "Review",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "description": "Listing or Profile ID"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "listing",
+        "profile"
+      ]
+    },
+    "target_name": {
+      "type": "string"
+    },
+    "reviewer_email": {
+      "type": "string"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "text": {
+      "type": "string"
+    },
+    "moderated": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "target_id",
+    "target_type",
+    "reviewer_email",
+    "rating"
+  ]
+}
