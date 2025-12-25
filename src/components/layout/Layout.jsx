@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
+import { ModeToggle } from '@/components/mode-toggle';
 
 export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
@@ -143,6 +144,8 @@ export default function Layout({ children, currentPageName }) {
                   Post Ad
                 </Button>
               </Link>
+              
+              <ModeToggle />
 
               {/* User Menu */}
               {user ? (

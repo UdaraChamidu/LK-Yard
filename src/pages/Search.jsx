@@ -62,7 +62,7 @@ export default function Search() {
 
   const { data: listings = [], isLoading: loadingListings } = useQuery({
     queryKey: ['search-listings'],
-    queryFn: () => base44.entities.Listing.filter({ status: 'active' }, '-created_date', 100),
+    queryFn: () => base44.entities.Listing.filter({ status: 'active' }, null, 100),
   });
 
   const { data: profiles = [], isLoading: loadingProfiles } = useQuery({

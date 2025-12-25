@@ -48,9 +48,12 @@ const LayoutWrapper = ({ children, pageName }) => {
   );
 };
 
+import { ThemeProvider } from "@/components/theme-provider"
+
 function App() {
   return (
-    <AuthProvider>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <AuthProvider>
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
@@ -145,7 +148,8 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
