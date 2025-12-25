@@ -77,7 +77,7 @@ export default function BuySell() {
     queryKey: ['buy-sell-listings'],
     queryFn: () => base44.entities.Listing.filter(
       { type: 'item', status: 'active' }, 
-      '-created_date', 
+      null, 
       50
     ),
   });

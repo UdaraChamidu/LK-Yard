@@ -65,7 +65,7 @@ export default function Jobs() {
     queryKey: ['job-listings'],
     queryFn: () => base44.entities.Listing.filter(
       { type: 'job', status: 'active' },
-      '-created_date',
+      null,
       50
     ),
   });

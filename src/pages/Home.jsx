@@ -29,12 +29,13 @@ export default function Home() {
 
   const { data: allListings = [], isLoading } = useQuery({
     queryKey: ['home-listings'],
-    queryFn: () => base44.entities.Listing.filter({ status: 'active' }, '-created_date', 20),
+    queryFn: () => base44.entities.Listing.filter({ status: 'active' }, null, 20),
   });
 
-  const filteredListings = selectedCategory === 'all' 
+  const filteredListings = (selectedCategory === 'all' 
     ? allListings 
-    : allListings.filter(l => l.category === selectedCategory);
+    : allListings.filter(l => l.category === selectedCategory))
+    .sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
 
   const handleSearch = (e) => {
     e.preventDefault();

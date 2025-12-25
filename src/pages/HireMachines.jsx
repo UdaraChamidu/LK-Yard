@@ -62,7 +62,7 @@ export default function HireMachines() {
     queryKey: ['machine-listings'],
     queryFn: () => base44.entities.Listing.filter(
       { type: 'machine', status: 'active' },
-      '-created_date',
+      null,
       50
     ),
   });
