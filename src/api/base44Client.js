@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updatePassword
 } from 'firebase/auth';
 import { 
   collection, 
@@ -17,7 +18,8 @@ import {
   doc,
   orderBy,
   limit,
-  serverTimestamp
+  serverTimestamp,
+  setDoc
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -58,16 +60,42 @@ export const base44 = {
             return;
           }
           try {
-            // Fetch additional user details from 'users' collection or 'profiles'
-            // For now, returning basic auth info enriched with a profile check
+            // 1. Try fetching by Document ID (Preferred user creation method)
             const userDocRef = doc(db, 'users', user.uid);
             const userDoc = await getDoc(userDocRef);
             
+            if (userDoc.exists()) {
+              resolve({
+                uid: user.uid,
+                email: user.email,
+                full_name: user.displayName || user.email.split('@')[0],
+                ...userDoc.data()
+              });
+              return;
+            }
+
+            // 2. Fallback: Try fetching by 'uid' field (Legacy/Generic creation method)
+            const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+            const querySnapshot = await getDocs(q);
+            
+            if (!querySnapshot.empty) {
+              const legacyDoc = querySnapshot.docs[0];
+              resolve({
+                uid: user.uid,
+                email: user.email,
+                full_name: user.displayName || user.email.split('@')[0],
+                ...legacyDoc.data(),
+                id: legacyDoc.id // Include the actual doc ID
+              });
+              return;
+            }
+
+            // 3. No profile found, return basic auth info
             resolve({
               uid: user.uid,
               email: user.email,
               full_name: user.displayName || user.email.split('@')[0],
-              ...(userDoc.exists() ? userDoc.data() : {})
+              role: 'user'
             });
           } catch (error) {
             reject(error);
@@ -83,19 +111,29 @@ export const base44 = {
 
     register: async (email, password, fullName) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Create a user profile document
-      await base44.entities.User.create({
+      // Create a user profile document using UID as document ID
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
         uid: userCredential.user.uid,
         email: email,
         full_name: fullName,
         role: 'user', // Default role
-        created_at: serverTimestamp()
+        created_at: serverTimestamp(),
+        created_date: new Date().toISOString()
       });
       return userCredential.user;
     },
 
     logout: async () => {
       await signOut(auth);
+    },
+
+    updatePassword: async (newPassword) => {
+      const user = auth.currentUser;
+      if (user) {
+        await updatePassword(user, newPassword);
+      } else {
+        throw new Error('No user logged in');
+      }
     },
 
     redirectToLogin: (returnUrl) => {

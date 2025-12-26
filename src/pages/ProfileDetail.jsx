@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft, MapPin, Star, BadgeCheck, Phone, MessageCircle,
-  Calendar, Briefcase, FileText, Award, Globe, Clock, Users, ShoppingBag
+  Calendar, Briefcase, FileText, Award, Globe, Clock, Users, ShoppingBag, Settings
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -213,25 +213,46 @@ export default function ProfileDetail() {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 w-full md:w-auto">
-              <Button 
-                className="bg-green-600 hover:bg-green-700"
-                onClick={handleWhatsApp}
-              >
-                <MessageCircle className="mr-2 h-4 w-4" />
-                WhatsApp
-              </Button>
-              <Button 
-                className="bg-[#F47524] hover:bg-[#E06418]"
-                onClick={handleCall}
-              >
-                <Phone className="mr-2 h-4 w-4" />
-                Call Now
-              </Button>
-              <Link to={createPageUrl(`RequestQuote?profile_id=${profile.id}`)}>
-                <Button variant="outline" className="w-full">
-                  Request Quote
-                </Button>
-              </Link>
+              {user?.role === 'admin' && user?.uid === profile.id ? (
+                <>
+                  <Button 
+                    className="bg-[#F47524] hover:bg-[#E06418]"
+                    onClick={() => navigate(createPageUrl('Settings'))}
+                  >
+                    <Settings className="mr-2 h-4 w-4" />
+                    Change Password
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => navigate(createPageUrl('AdminTools'))}
+                  >
+                    <Briefcase className="mr-2 h-4 w-4" />
+                    Admin Tools
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={handleWhatsApp}
+                  >
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    WhatsApp
+                  </Button>
+                  <Button 
+                    className="bg-[#F47524] hover:bg-[#E06418]"
+                    onClick={handleCall}
+                  >
+                    <Phone className="mr-2 h-4 w-4" />
+                    Call Now
+                  </Button>
+                  <Link to={createPageUrl(`RequestQuote?profile_id=${profile.id}`)}>
+                    <Button variant="outline" className="w-full">
+                      Request Quote
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

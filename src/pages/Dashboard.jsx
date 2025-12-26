@@ -326,14 +326,14 @@ export default function Dashboard() {
             </div>
             <div className="flex-1">
               <h1 className="text-2xl font-bold font-['Poppins']">
-                {user.full_name || 'Welcome!'}
+                {user.role === 'admin' ? `Hello Admin ${user.full_name?.split(' ')[0]}!` : (user.full_name || 'Welcome!')}
               </h1>
               <p className="text-gray-400 mt-1">{user.email}</p>
-              {myProfile && (
-                <Badge className="mt-2 bg-white/10 text-white border-0">
-                  {myProfile.role?.replace('_', ' ')}
+              <div className="flex gap-2 mt-2">
+                <Badge className={`${user.role === 'admin' ? 'bg-purple-500 hover:bg-purple-600' : 'bg-white/10'} text-white border-0`}>
+                  {user.role === 'admin' ? 'Administrator' : (myProfile?.role?.replace('_', ' ') || 'User')}
                 </Badge>
-              )}
+              </div>
             </div>
             <div className="flex gap-3">
               <Link to={createPageUrl('PostAd')}>

@@ -224,6 +224,43 @@ export default function Settings() {
           </div>
         </div>
 
+        {/* Security */}
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <Shield className="h-5 w-5 text-[#F47524]" />
+            Security
+          </h2>
+          
+          <div className="space-y-4">
+            <div>
+              <Label>Change Password</Label>
+              <div className="flex gap-2 mt-2">
+                <Input
+                  type="password"
+                  placeholder="New password"
+                  value={formData.newPassword || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
+                />
+                <Button 
+                  disabled={!formData.newPassword || formData.newPassword.length < 6}
+                  onClick={async () => {
+                    try {
+                      await base44.auth.updatePassword(formData.newPassword);
+                      setFormData(prev => ({ ...prev, newPassword: '' }));
+                      alert('Password updated successfully');
+                    } catch (error) {
+                      alert('Error updating password: ' + error.message);
+                    }
+                  }}
+                >
+                  Update
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+            </div>
+          </div>
+        </div>
+
         {/* Save Button */}
         <Button
           onClick={handleSave}
