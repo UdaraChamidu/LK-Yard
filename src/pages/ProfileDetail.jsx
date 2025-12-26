@@ -13,13 +13,39 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ReviewForm from '../components/reviews/ReviewForm';
 
+import { sampleProfessionals, sampleSubcontractors } from '@/data/sampleProfiles';
+import ImageWithLoader from '@/components/ui/ImageWithLoader';
+import { useAuth } from '@/context/AuthContext';
+
 export default function ProfileDetail() {
   const navigate = useNavigate();
   const { id: profileId } = useParams();
+  const { user } = useAuth();
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', profileId],
     queryFn: async () => {
+      // 1. Check if it's the current admin user (Admin profiles might not exist in 'profiles' collection)
+      if (user && user.uid === profileId && user.role === 'admin') {
+        return {
+          id: user.uid,
+          display_name: user.full_name || 'Admin User',
+          role: 'admin',
+          user_email: user.email,
+          designation: 'System Administrator',
+          verified: true,
+          bio: 'Platform Administrator',
+          skills: ['System Management'],
+          city: 'Headquarters',
+          rating: 5.0,
+          rating_count: 1
+        };
+      }
+
+      // 2. Check sample data
+      const sampleProfile = [...sampleProfessionals, ...sampleSubcontractors].find(p => p.id === profileId);
+      if (sampleProfile) return sampleProfile;
+
       try {
         return await base44.entities.Profile.get(profileId);
       } catch (error) {
@@ -89,6 +115,7 @@ export default function ProfileDetail() {
     professional: 'Professional',
     machine_owner: 'Machine Owner',
     seller: 'Seller',
+    admin: 'Administrator',
   };
 
   return (
@@ -316,11 +343,13 @@ export default function ProfileDetail() {
                 {profile.portfolio.map((project, idx) => (
                   <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-sm">
                     {project.images?.[0] && (
-                      <img
-                        src={project.images[0]}
-                        alt={project.title}
-                        className="w-full h-48 object-cover"
-                      />
+                      <div className="h-48 w-full">
+                        <ImageWithLoader
+                          src={project.images[0]}
+                          alt={project.title}
+                          className="w-full h-full"
+                        />
+                      </div>
                     )}
                     <div className="p-4">
                       <h3 className="font-semibold text-gray-900">{project.title}</h3>
@@ -343,9 +372,13 @@ export default function ProfileDetail() {
                 {userListings.map((listing) => (
                   <Link key={listing.id} to={createPageUrl(`ListingDetail?id=${listing.id}`)}>
                     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow">
-                      <div className="aspect-video bg-gray-100">
+                      <div className="aspect-video bg-gray-100 relative">
                         {listing.images?.[0] && (
-                          <img src={listing.images[0]} alt={listing.title} className="w-full h-full object-cover" />
+                          <ImageWithLoader 
+                            src={listing.images[0]} 
+                            alt={listing.title} 
+                            className="w-full h-full" 
+                          />
                         )}
                       </div>
                       <div className="p-4">

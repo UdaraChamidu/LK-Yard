@@ -22,6 +22,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { formatDistanceToNow, format } from 'date-fns';
 import ListingCard from '../components/listings/ListingCard';
 import ReviewForm from '../components/reviews/ReviewForm';
+import ImageWithLoader from '@/components/ui/ImageWithLoader';
+import { sampleListings } from '@/data/sampleListings';
 
 export default function ListingDetail() {
   const navigate = useNavigate();
@@ -46,9 +48,15 @@ export default function ListingDetail() {
     checkAuth();
   }, []);
 
+
+
   const { data: listing, isLoading } = useQuery({
     queryKey: ['listing', listingId],
     queryFn: async () => {
+      // Check sample data first
+      const sampleListing = sampleListings.find(l => l.id === listingId);
+      if (sampleListing) return sampleListing;
+
       try {
         return await base44.entities.Listing.get(listingId);
       } catch (error) {
@@ -216,13 +224,15 @@ export default function ListingDetail() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
+
+
             {/* Image Gallery */}
             <div className="bg-white rounded-xl overflow-hidden shadow-sm">
               <div className="relative aspect-[4/3]">
-                <img
+                <ImageWithLoader
                   src={images[currentImageIndex]}
                   alt={listing.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full"
                 />
                 {images.length > 1 && (
                   <>
@@ -230,7 +240,7 @@ export default function ListingDetail() {
                       onClick={() => setCurrentImageIndex((prev) => 
                         prev === 0 ? images.length - 1 : prev - 1
                       )}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white z-10"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
@@ -238,14 +248,14 @@ export default function ListingDetail() {
                       onClick={() => setCurrentImageIndex((prev) => 
                         prev === images.length - 1 ? 0 : prev + 1
                       )}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white z-10"
                     >
                       <ChevronRight className="h-5 w-5" />
                     </button>
                   </>
                 )}
                 {listing.featured && (
-                  <Badge className="absolute top-4 left-4 bg-[#F47524]">Featured</Badge>
+                  <Badge className="absolute top-4 left-4 bg-[#F47524] z-10">Featured</Badge>
                 )}
               </div>
               {images.length > 1 && (
@@ -254,11 +264,11 @@ export default function ListingDetail() {
                     <button
                       key={idx}
                       onClick={() => setCurrentImageIndex(idx)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
+                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 relative ${
                         idx === currentImageIndex ? 'border-[#F47524]' : 'border-transparent'
                       }`}
                     >
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <ImageWithLoader src={img} alt="" className="w-full h-full" />
                     </button>
                   ))}
                 </div>

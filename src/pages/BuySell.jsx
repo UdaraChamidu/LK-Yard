@@ -62,6 +62,10 @@ const locations = [
   'Ratnapura',
 ];
 
+
+
+import { sampleListings } from '@/data/sampleListings';
+
 export default function BuySell() {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
@@ -73,7 +77,7 @@ export default function BuySell() {
   const [sortBy, setSortBy] = useState('newest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { data: listings = [], isLoading } = useQuery({
+  const { data: fetchedListings = [], isLoading } = useQuery({
     queryKey: ['buy-sell-listings'],
     queryFn: () => base44.entities.Listing.filter(
       { type: 'item', status: 'active' }, 
@@ -81,6 +85,8 @@ export default function BuySell() {
       50
     ),
   });
+
+  const listings = fetchedListings.length > 0 ? fetchedListings : sampleListings.filter(l => l.type === 'item');
 
   const filteredListings = listings.filter((listing) => {
     if (searchQuery && !listing.title.toLowerCase().includes(searchQuery.toLowerCase())) {

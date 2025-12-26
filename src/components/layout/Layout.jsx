@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { 
   Menu, X, Search, Plus, User, LogOut, ChevronDown, 
   Home, ShoppingBag, Users, Truck, Briefcase, Building2,
-  MessageSquare, Settings, Heart, Bell
+  MessageSquare, Settings, Heart, Bell, Database
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -173,6 +173,12 @@ export default function Layout({ children, currentPageName }) {
                       <Heart className="mr-2 h-4 w-4" />
                       Favorites
                     </DropdownMenuItem>
+                    {user.role === 'admin' && (
+                      <DropdownMenuItem onClick={() => navigate(createPageUrl('AdminTools'))}>
+                        <Database className="mr-2 h-4 w-4" />
+                        Admin Tools
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => navigate(createPageUrl('Settings'))}>
                       <Settings className="mr-2 h-4 w-4" />

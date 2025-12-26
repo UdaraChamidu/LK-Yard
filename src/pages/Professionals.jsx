@@ -49,6 +49,8 @@ const locations = [
   'Kurunegala',
 ];
 
+import { sampleProfessionals } from '@/data/sampleProfiles';
+
 export default function Professionals() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDesignation, setSelectedDesignation] = useState('all');
@@ -59,10 +61,12 @@ export default function Professionals() {
   const [sortBy, setSortBy] = useState('rating');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { data: profiles = [], isLoading } = useQuery({
+  const { data: fetchedProfiles = [], isLoading } = useQuery({
     queryKey: ['professionals'],
     queryFn: () => base44.entities.Profile.filter({ role: 'professional' }, '-rating', 50),
   });
+
+  const profiles = fetchedProfiles.length > 0 ? fetchedProfiles : sampleProfessionals;
 
   const filteredProfiles = profiles.filter((profile) => {
     if (searchQuery && !profile.display_name.toLowerCase().includes(searchQuery.toLowerCase())) {

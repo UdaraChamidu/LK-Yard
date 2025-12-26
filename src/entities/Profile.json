@@ -13,7 +13,8 @@
         "seller",
         "subcontractor",
         "professional",
-        "machine_owner"
+        "machine_owner",
+        "admin"
       ],
       "description": "User role"
     },

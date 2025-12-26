@@ -325,6 +325,33 @@ export default function AdminTools() {
             Seed Listings
           </Button>
         </div>
+
+        <div className="bg-white p-6 rounded-xl border shadow-sm border-blue-100 bg-blue-50">
+          <h2 className="font-semibold text-lg mb-4 text-blue-900">Admin Access</h2>
+          <p className="text-sm text-blue-700 mb-4">
+            Promote your current account ({user?.email}) to Admin status.
+          </p>
+          <Button 
+            onClick={async () => {
+              setLoading(true);
+              addLog('Promoting user to Admin...', 'info');
+              try {
+                await base44.auth.updateMe({ role: 'admin' });
+                addLog('Success! You are now an Admin.', 'success');
+                // Force reload to refresh claims/context if needed, or just let context update
+                window.location.reload(); 
+              } catch (e) {
+                addLog(`Error: ${e.message}`, 'error');
+              } finally {
+                setLoading(false);
+              }
+            }} 
+            disabled={loading || user?.role === 'admin'} 
+            className="w-full bg-blue-600 hover:bg-blue-700"
+          >
+            {user?.role === 'admin' ? 'You are an Admin' : 'Promote to Admin'}
+          </Button>
+        </div>
       </div>
 
       <div className="bg-gray-900 rounded-xl p-6 text-gray-300 font-mono text-sm h-64 overflow-y-auto">

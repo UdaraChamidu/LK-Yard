@@ -132,6 +132,8 @@ const locations = [
   'Ratnapura',
 ];
 
+import { sampleSubcontractors } from '@/data/sampleProfiles';
+
 export default function Subcontractors() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -143,10 +145,12 @@ export default function Subcontractors() {
   const [sortBy, setSortBy] = useState('rating');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { data: profiles = [], isLoading } = useQuery({
+  const { data: fetchedProfiles = [], isLoading } = useQuery({
     queryKey: ['subcontractors'],
     queryFn: () => base44.entities.Profile.filter({ role: 'subcontractor' }, '-rating', 50),
   });
+
+  const profiles = fetchedProfiles.length > 0 ? fetchedProfiles : sampleSubcontractors;
 
   const filteredProfiles = profiles.filter((profile) => {
     if (searchQuery && !profile.display_name.toLowerCase().includes(searchQuery.toLowerCase())) {

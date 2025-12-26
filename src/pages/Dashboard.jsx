@@ -28,6 +28,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 import { formatDistanceToNow } from 'date-fns';
 
 export default function Dashboard() {
@@ -191,19 +200,7 @@ export default function Dashboard() {
     );
   }
 
-  if (user.role !== 'admin') {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-[#111111] mb-2">Access Denied</h2>
-          <p className="text-[#616367] mb-4">Only administrators can access the dashboard</p>
-          <Button onClick={() => navigate(createPageUrl('Home'))} className="bg-[#F47524] hover:bg-[#E06418]">
-            Go to Home
-          </Button>
-        </div>
-      </div>
-    );
-  }
+
 
   const activeListings = myListings.filter(l => l.status === 'active');
   const soldListings = myListings.filter(l => l.status === 'sold');

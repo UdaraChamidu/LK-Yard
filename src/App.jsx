@@ -22,6 +22,7 @@ import Search from './pages/Search';
 import Settings from './pages/Settings';
 import Subcontractors from './pages/Subcontractors';
 import AdminTools from './pages/AdminTools';
+import Favorites from './pages/Favorites';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -34,6 +35,24 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isAuthenticated) {
     return <Navigate to="/Login" state={{ from: location }} replace />;
+  }
+
+
+
+  return children;
+};
+
+// Admin Route Component
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -134,13 +153,28 @@ function App() {
             } 
           />
 
+
+
+          <Route 
+            path="/Favorites" 
+            element={
+              <ProtectedRoute>
+                <LayoutWrapper pageName="Favorites">
+                  <Favorites />
+                </LayoutWrapper>
+              </ProtectedRoute>
+            } 
+          />
+
           <Route 
             path="/AdminTools" 
             element={
               <ProtectedRoute>
-                <LayoutWrapper pageName="Admin Tools">
-                  <AdminTools />
-                </LayoutWrapper>
+                <AdminRoute>
+                  <LayoutWrapper pageName="Admin Tools">
+                    <AdminTools />
+                  </LayoutWrapper>
+                </AdminRoute>
               </ProtectedRoute>
             } 
           />

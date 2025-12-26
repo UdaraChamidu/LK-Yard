@@ -50,6 +50,8 @@ const locations = [
   'Negombo',
 ];
 
+import { sampleListings } from '@/data/sampleListings';
+
 export default function HireMachines() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('all');
@@ -58,7 +60,7 @@ export default function HireMachines() {
   const [sortBy, setSortBy] = useState('newest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { data: listings = [], isLoading } = useQuery({
+  const { data: fetchedListings = [], isLoading } = useQuery({
     queryKey: ['machine-listings'],
     queryFn: () => base44.entities.Listing.filter(
       { type: 'machine', status: 'active' },
@@ -66,6 +68,8 @@ export default function HireMachines() {
       50
     ),
   });
+
+  const listings = fetchedListings.length > 0 ? fetchedListings : sampleListings.filter(l => l.type === 'machine');
 
   const filteredListings = listings.filter((listing) => {
     if (searchQuery && !listing.title.toLowerCase().includes(searchQuery.toLowerCase())) {
