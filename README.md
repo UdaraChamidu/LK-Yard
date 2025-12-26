@@ -1,104 +1,132 @@
-# Lankan-Yard 🏗️ 
+# Lanka Yard (LK Yard)
 
-**Sri Lanka's Premier Construction Marketplace**
-
-LankaYard is a modern web platform connecting construction professionals, subcontractors, and suppliers with customers. It facilitates the buying/selling of tools, hiring of heavy machinery, and posting of job opportunities within the construction industry.
+LK Yard is a comprehensive digital marketplace and professional directory tailored for the construction industry in Sri Lanka. It connects clients with contractors, professionals, equipment rentals, and building material suppliers in a seamless, modern web application.
 
 ## 🚀 Features
 
--   **User Authentication**: Secure Login/Register via Firebase Auth.
--   **Listings Management**:
-    -   **Buy & Sell**: Tools and building materials.
-    -   **Hire Machines**: Heavy machinery rental services.
-    -   **Jobs**: Construction industry job board.
--   **Profiles**:
-    -   **Professionals**: Civil Engineers, Architects, Quantity Surveyors.
-    -   **Subcontractors**: Masons, Plumbers, Electricians.
--   **Dashboard**: Comprehensive user dashboard to manage listings, bookings, and inquiries.
--   **Messaging**: In-app messaging system for buyers and sellers.
--   **Search & Filtering**: Advanced filtering by category, location, price, and more.
+### Marketplace & Rentals
+- **Buy & Sell**: A marketplace for construction tools and materials.
+- **Hire Machines**: Equipment rental listings with filtering by machine type (Excavators, Cranes, etc.) and location.
+- **Construction Jobs**: A dedicated job board for finding employment in the construction sector.
+- **Subcontractors**: Find specialized trade groups (Masonry, Plumbing, Electrical, etc.).
+
+### Professional Directory
+- **Expert Professionals**: verified profiles for Civil Engineers, Architects, Quantity Surveyors, etc.
+- **Advanced Filtering**: Search by designation, location, daily rate, and rating.
+- **Verified Badges**: Trust indicators for vetted professionals.
+
+### User Experience
+- **User Dashboard**: Manage listings, view bookings, and handle favorites.
+- **Admin Tools**: Dedicated admin dashboard for user management and platform oversight.
+- **Secure Authentication**: Email/Password login powered by Firebase Authentication.
+- **Responsive Design**: Fully mobile-optimized interface with modern UI/UX components.
+- **Favorites**: Save listings and profiles for quick access.
 
 ## 🛠️ Tech Stack
 
--   **Frontend**: React 19, Vite 7
--   **Styling**: Tailwind CSS 3, Shadcn UI (Custom Implementation)
--   **State Management**: React Query (TanStack Query)
--   **Routing**: React Router DOM v7
--   **Backend**: Firebase (Authentication, Firestore, Storage)
--   **Icons**: Lucide React
+- **Frontend Framework**: [React](https://react.dev/) (v19) with [Vite](https://vitejs.dev/)
+- **Language**: JavaScript (ES Modules)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with `shadcn/ui` components.
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Routing**: [React Router](https://reactrouter.com/) (v7)
+- **State Management & Caching**: [TanStack Query](https://tanstack.com/query/latest)
+- **Backend & Database**: [Firebase](https://firebase.google.com/) (Firestore)
+- **Authentication**: Firebase Auth
+- **Hosting**: Firebase Hosting
 
-## 🏁 Getting Started
+## ⚙️ Prerequisites
 
-### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- A Firebase project with Firestore and Authentication enabled.
 
--   Node.js (v18 or higher)
--   npm (v9 or higher)
+## 📦 Installation
 
-### Installation
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/lk-yard.git
+    cd lk-yard
+    ```
 
-1.  **Clone the repository** (if applicable) or navigate to the project folder.
-2.  **Install dependencies**:
+2.  **Install dependencies**
     ```bash
     npm install
     ```
 
-### Configuration (Firebase)
+3.  **Configure Environment Variables**
+    Create a `.env` file in the root directory and add your Firebase configuration:
+    ```env
+    VITE_FIREBASE_API_KEY=your_api_key
+    VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+    VITE_FIREBASE_PROJECT_ID=your_project_id
+    VITE_FIREBASE_STORAGE_BUCKET=your_project_id.firebasestorage.app
+    VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+    VITE_FIREBASE_APP_ID=your_app_id
+    ```
 
-This project relies on **Firebase** for backend services. You must set up a Firebase project and configure the environment variables.
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+    The app will be available at `http://localhost:5173`.
 
-1.  Create a project at [Firebase Console](https://console.firebase.google.com/).
-2.  Enable **Authentication** (Email/Password provider).
-3.  Enable **Firestore Database** (Start in Test Mode).
-4.  Enable **Storage** (Start in Test Mode).
-5.  Create a `.env` file in the root directory and add your keys:
+## 🚀 Build & Deployment
 
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
+This project is configured for deployment on **Firebase Hosting**.
 
-### Running the App
-
-Start the development server:
-
+### 1. Build the project
 ```bash
-npm run dev
+npm run build
+```
+This generates the production files in the `dist` directory.
+
+### 2. Deploy to Firebase
+Ensure you have the Firebase CLI installed and logged in:
+```bash
+npm install -g firebase-tools
+firebase login
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Initialize Firebase (if not done):
+```bash
+firebase init hosting
+```
+- Select **Use an existing project**.
+- Set public directory to `dist`.
+- Configure as a single-page app (Rewrite all URLs to /index.html? **Yes**).
 
-## 🗄️ Data Seeding
-
-Since a new Firebase project starts empty, we have included a built-in tool to populate initial data.
-
-1.  **Register** a new account and login.
-2.  Navigate to `/AdminTools` manually in your browser URL bar.
-3.  Click **"Seed Profiles"** to add sample Professionals and Subcontractors.
-4.  Click **"Seed Listings"** to add sample Tools and Machinery.
-5.  Check the **"Professionals"** or **"Buy & Sell"** pages to verify the data.
+Deploy:
+```bash
+firebase deploy
+```
 
 ## 📂 Project Structure
 
 ```
 src/
-├── api/            # API Clients (Firebase wrapper)
-├── components/     # Reusable UI components
-│   ├── layout/     # Layout wrappers (Sidebar, Navbar)
-│   ├── listings/   # Listing cards and related views
-│   ├── ui/         # Base UI elements (Button, Input, etc.)
-│   └── ...
+├── api/            # Base44/Firebase API client wrapper
+├── assets/         # Static images and icons
+├── components/     # Reusable UI components (Layout, Listings, UI Library)
 ├── context/        # React Context (AuthContext)
-├── entities/       # JSON Schemas/Types
-├── hooks/          # Custom React Hooks
-├── lib/            # Utilities & Config (Firebase init)
-├── pages/          # Application Routes/Pages
-└── ...
+├── data/           # Mock data for development
+├── entities/       # Data models/schemas (JSON)
+├── lib/            # Library configurations (Firebase, Utils)
+├── pages/          # Application Pages (Home, Dashboard, Login, etc.)
+└── utils/          # Helper functions
 ```
 
-## 📜 License
+## 🔒 Security
 
-Private Property of LankaYard.
+- **Route Protection**: `ProtectedRoute` and `AdminRoute` components ensure restricted access to sensitive pages.
+- **Firebase Rules**: Firestore security rules should be configured to protect data integrity.
+
+## 🤝 Contributing
+
+1.  Fork the project
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
+Built with ❤️ for the Sri Lankan Construction Industry.

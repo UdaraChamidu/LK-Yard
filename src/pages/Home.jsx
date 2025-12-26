@@ -89,21 +89,6 @@ export default function Home() {
                   };
 
                   const targetUrl = getCategoryUrl(cat.id);
-                  const isActive = selectedCategory === cat.id && !targetUrl; // Only highlighting 'all' essentially, or if we are on that page? 
-                  // Actually, for navigation links, we don't need to highlight them as selected in the *Home* page state, 
-                  // because we leave the page.
-                  // But we might want 'All Categories' to be highlighted if selectedCategory is 'all'.
-                  
-                  const baseClasses = `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                      isActive
-                        ? 'bg-[#F47524] text-white'
-                        : targetUrl ? 'text-[#616367] hover:bg-gray-50' : (selectedCategory === 'all' ? 'bg-[#F47524] text-white' : 'text-[#616367] hover:bg-gray-50')
-                    }`;
-                  
-                  // Simplified styling logic:
-                  // If it's 'all', check selectedCategory.
-                  // If it's a link, it's never 'active' in the context of Home page filtering (since clicking it leaves).
-                  
                   const isSelected = cat.id === 'all' && selectedCategory === 'all';
                   const classes = `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
                       isSelected
