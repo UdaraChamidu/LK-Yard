@@ -76,20 +76,65 @@ export default function Home() {
                 <h2 className="font-semibold text-[#111111]">Categories</h2>
               </div>
               <div className="p-2">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                      selectedCategory === cat.id
+                {categories.map((cat) => {
+                  const getCategoryUrl = (id) => {
+                     switch(id) {
+                        case 'subcontractors': return createPageUrl('Subcontractors');
+                        case 'machines': return createPageUrl('HireMachines');
+                        case 'tools_materials': return createPageUrl('BuySell?subcategory=Building Materials');
+                        case 'professionals': return createPageUrl('Professionals');
+                        case 'jobs': return createPageUrl('Jobs');
+                        default: return null;
+                     }
+                  };
+
+                  const targetUrl = getCategoryUrl(cat.id);
+                  const isActive = selectedCategory === cat.id && !targetUrl; // Only highlighting 'all' essentially, or if we are on that page? 
+                  // Actually, for navigation links, we don't need to highlight them as selected in the *Home* page state, 
+                  // because we leave the page.
+                  // But we might want 'All Categories' to be highlighted if selectedCategory is 'all'.
+                  
+                  const baseClasses = `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                      isActive
+                        ? 'bg-[#F47524] text-white'
+                        : targetUrl ? 'text-[#616367] hover:bg-gray-50' : (selectedCategory === 'all' ? 'bg-[#F47524] text-white' : 'text-[#616367] hover:bg-gray-50')
+                    }`;
+                  
+                  // Simplified styling logic:
+                  // If it's 'all', check selectedCategory.
+                  // If it's a link, it's never 'active' in the context of Home page filtering (since clicking it leaves).
+                  
+                  const isSelected = cat.id === 'all' && selectedCategory === 'all';
+                  const classes = `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                      isSelected
                         ? 'bg-[#F47524] text-white'
                         : 'text-[#616367] hover:bg-gray-50'
-                    }`}
-                  >
-                    <cat.icon className="h-5 w-5" />
-                    <span className="text-sm font-medium">{cat.name}</span>
-                  </button>
-                ))}
+                    }`;
+
+                  if (targetUrl) {
+                    return (
+                      <Link
+                        key={cat.id}
+                        to={targetUrl}
+                        className={classes}
+                      >
+                        <cat.icon className="h-5 w-5" />
+                        <span className="text-sm font-medium">{cat.name}</span>
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={classes}
+                    >
+                      <cat.icon className="h-5 w-5" />
+                      <span className="text-sm font-medium">{cat.name}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </aside>

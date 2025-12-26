@@ -40,7 +40,12 @@ export default function Register() {
       await register(formData.email, formData.password, formData.fullName);
       navigate(createPageUrl('Dashboard'));
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      console.error(err);
+      if (err.code === 'auth/email-already-in-use') {
+        setError('This email is already registered. Please sign in instead.');
+      } else {
+        setError('Registration failed: ' + (err.message || 'Please try again.'));
+      }
     } finally {
       setLoading(false);
     }

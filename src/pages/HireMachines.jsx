@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -53,12 +53,20 @@ const locations = [
 import { sampleListings } from '@/data/sampleListings';
 
 export default function HireMachines() {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedType, setSelectedType] = useState(searchParams.get('type') || 'all');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [priceRange, setPriceRange] = useState([0, 50000]);
   const [sortBy, setSortBy] = useState('newest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    const typeParam = searchParams.get('type');
+    if (typeParam) {
+      setSelectedType(typeParam);
+    }
+  }, [searchParams]);
 
   const { data: fetchedListings = [], isLoading } = useQuery({
     queryKey: ['machine-listings'],

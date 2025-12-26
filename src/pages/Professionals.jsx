@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -52,14 +52,22 @@ const locations = [
 import { sampleProfessionals } from '@/data/sampleProfiles';
 
 export default function Professionals() {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDesignation, setSelectedDesignation] = useState('all');
+  const [selectedDesignation, setSelectedDesignation] = useState(searchParams.get('designation') || 'all');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [rateRange, setRateRange] = useState([0, 50000]);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState('rating');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    const designationParam = searchParams.get('designation');
+    if (designationParam) {
+      setSelectedDesignation(designationParam);
+    }
+  }, [searchParams]);
 
   const { data: fetchedProfiles = [], isLoading } = useQuery({
     queryKey: ['professionals'],
@@ -227,17 +235,17 @@ export default function Professionals() {
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-purple-900 to-purple-700 text-white py-12">
+      <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-4">
-            <GraduationCap className="h-5 w-5" />
-            <span className="text-sm font-medium">Certified Professionals</span>
+            <Briefcase className="h-5 w-5" />
+            <span className="text-sm font-medium">Expert Professionals</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-            Find Construction Professionals
+            Hire Top Construction Professionals
           </h1>
-          <p className="text-purple-100 max-w-2xl mx-auto">
-            Connect with certified engineers, architects, quantity surveyors, and project managers
+          <p className="text-gray-300 max-w-2xl mx-auto">
+            Connect with verified Civil Engineers, Architects, Quantity Surveyors, and more for your dream project.
           </p>
         </div>
       </div>
@@ -265,7 +273,7 @@ export default function Professionals() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="reviews">Most Reviews</SelectItem>
+                  <SelectItem value="reviews">Most Reviewed</SelectItem>
                   <SelectItem value="rate_low">Rate: Low to High</SelectItem>
                   <SelectItem value="rate_high">Rate: High to Low</SelectItem>
                 </SelectContent>
@@ -296,19 +304,19 @@ export default function Professionals() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex gap-6">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex gap-8">
           {/* Desktop Sidebar */}
-          <aside className="hidden md:block w-64 flex-shrink-0">
-            <div className="bg-white rounded-xl p-5 shadow-sm sticky top-36">
-              <h2 className="font-semibold text-lg text-gray-900 mb-4">Filters</h2>
+          <aside className="hidden md:block w-72 flex-shrink-0">
+            <div className="bg-white rounded-xl p-6 shadow-sm sticky top-36">
+              <h2 className="font-semibold text-lg text-gray-900 mb-6">Filters</h2>
               <FilterContent />
             </div>
           </aside>
 
-          {/* Profiles */}
+          {/* Main Content */}
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-4">
+             <div className="flex items-center justify-between mb-6">
               <p className="text-gray-600">
                 <span className="font-semibold text-gray-900">{sortedProfiles.length}</span> professionals found
               </p>
@@ -327,17 +335,14 @@ export default function Professionals() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="text-center py-16 bg-white rounded-xl shadow-sm">
+                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Briefcase className="h-8 w-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">No professionals found</h3>
-                <p className="text-gray-500 mb-6">
-                  Try adjusting your filters or search terms
+                <p className="text-gray-500 max-w-sm mx-auto">
+                  Try adjusting your filters or search terms to find what you're looking for.
                 </p>
-                <Button onClick={clearFilters} variant="outline">
-                  Clear All Filters
-                </Button>
               </div>
             )}
           </div>

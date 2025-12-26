@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -135,8 +135,9 @@ const locations = [
 import { sampleSubcontractors } from '@/data/sampleProfiles';
 
 export default function Subcontractors() {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [selectedServiceGroups, setSelectedServiceGroups] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [rateRange, setRateRange] = useState([0, 10000]);
@@ -144,6 +145,13 @@ export default function Subcontractors() {
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState('rating');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const { data: fetchedProfiles = [], isLoading } = useQuery({
     queryKey: ['subcontractors'],

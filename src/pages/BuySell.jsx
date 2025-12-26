@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -67,15 +67,23 @@ const locations = [
 import { sampleListings } from '@/data/sampleListings';
 
 export default function BuySell() {
+  const [searchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSubcategory, setSelectedSubcategory] = useState('All Items');
+  const [selectedSubcategory, setSelectedSubcategory] = useState(searchParams.get('subcategory') || 'All Items');
   const [selectedCondition, setSelectedCondition] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [priceRange, setPriceRange] = useState([0, 500000]);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    const categoryParam = searchParams.get('subcategory');
+    if (categoryParam) {
+      setSelectedSubcategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const { data: fetchedListings = [], isLoading } = useQuery({
     queryKey: ['buy-sell-listings'],
