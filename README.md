@@ -2,6 +2,8 @@
 
 LK Yard is a comprehensive digital marketplace and professional directory tailored for the construction industry in Sri Lanka. It connects clients with contractors, professionals, equipment rentals, and building material suppliers in a seamless, modern web application.
 
+<img width="1610" height="900" alt="image" src="https://github.com/user-attachments/assets/ba565aaa-a2ed-4c09-9b0e-8424262e9a21" />
+
 ## 🚀 Features
 
 ### Marketplace & Rentals
