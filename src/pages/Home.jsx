@@ -142,7 +142,7 @@ export default function Home() {
                 <div className="relative z-10">
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Welcome to 
-                    <span className="text-[#F47524]">    LKYard</span>
+                    <span className="text-[#F47524]">    LK-Yard</span>
                   </h1>
                   <p className="text-gray-600 leading-relaxed mb-4 max-w-2xl">
                     Sri Lanka's premier construction marketplace. We connect you with top-rated professionals, high-quality tools, reliable machinery, and skilled labor. Whether you're building a dream home or managing a large project, find everything you need in one place.

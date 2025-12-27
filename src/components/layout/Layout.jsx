@@ -133,47 +133,15 @@ export default function Layout({ children, currentPageName }) {
 
               {/* User Menu */}
               {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="relative">
-                      <User className="h-5 w-5" />
-                      <span className="absolute -top-1 -right-1 h-3 w-3 bg-[#F47524] rounded-full" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <div className="px-3 py-2 border-b">
-                      <p className="font-medium text-sm">{user.full_name || 'User'}</p>
-                      <p className="text-xs text-gray-500">{user.email}</p>
-                    </div>
-                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Dashboard'))}>
-                      <User className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Messages'))}>
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Messages
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Favorites'))}>
-                      <Heart className="mr-2 h-4 w-4" />
-                      Favorites
-                    </DropdownMenuItem>
-                    {user.role === 'admin' && (
-                      <DropdownMenuItem onClick={() => navigate(createPageUrl('AdminTools'))}>
-                        <Database className="mr-2 h-4 w-4" />
-                        Admin Tools
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Settings'))}>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => navigate(createPageUrl('Dashboard'))}
+                  className="relative rounded-full hover:bg-orange-50 transition-colors"
+                >
+                  <User className="h-5 w-5 text-gray-600 hover:text-[#F47524]" />
+                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-[#F47524] rounded-full" />
+                </Button>
               ) : (
                 <Button
                   variant="outline"
@@ -210,7 +178,7 @@ export default function Layout({ children, currentPageName }) {
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     currentPageName === item.page
                       ? 'bg-orange-50 text-[#F47524]'
-                      : 'text-[#616367] hover:bg-gray-50'
+                      : 'text-[#616367] hover:bg-orange-50 hover:text-orange-600'
                   }`}
                 >
                   <item.icon className="h-5 w-5" />

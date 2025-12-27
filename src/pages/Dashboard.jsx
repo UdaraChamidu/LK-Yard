@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  User, Settings, ShoppingBag, MessageSquare, Star, Calendar,
-  Plus, Edit, Trash2, Eye, MoreVertical, BadgeCheck, Clock,
-  ChevronRight, LogOut, Heart, Bell, RefreshCw, PauseCircle, PlayCircle,
-  TrendingUp, CheckCircle2
+  LayoutDashboard, Package, Users, User, Star, MessageSquare, Calendar, 
+  ChevronRight, TrendingUp, Clock, CheckCircle2, XCircle, Search, Filter,
+  Settings, LogOut, Heart, Database, Shield,
+  Eye, ShoppingBag, Mail, BadgeCheck, Plus, RefreshCw, PauseCircle, PlayCircle, Trash2, MoreVertical, Edit, Bell
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,10 +43,12 @@ import { formatDistanceToNow } from 'date-fns';
 
 export default function Dashboard() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [selectedListings, setSelectedListings] = useState([]);
   const [bulkActionOpen, setBulkActionOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -192,6 +196,11 @@ export default function Dashboard() {
     );
   };
 
+  const handleLogout = async () => {
+    await base44.auth.logout();
+    navigate(createPageUrl('Login'));
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -200,195 +209,331 @@ export default function Dashboard() {
     );
   }
 
-
+  const SidebarItem = ({ icon: Icon, label, value, onClick, isLink = false }) => {
+    const isActive = activeTab === value && !isLink;
+    return (
+      <button
+        onClick={() => {
+          if (isLink && onClick) {
+              onClick();
+          } else {
+              setActiveTab(value);
+          }
+        }}
+        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+          isActive 
+            ? 'bg-orange-50 text-[#F47524] font-medium shadow-sm' 
+            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+        }`}
+      >
+        <Icon className={`h-5 w-5 ${isActive ? 'text-[#F47524]' : 'text-gray-400 group-hover:text-gray-600'}`} />
+        <span>{label}</span>
+        {isActive && <ChevronRight className="h-4 w-4 ml-auto text-orange-400" />}
+      </button>
+    );
+  };
 
   const activeListings = myListings.filter(l => l.status === 'active');
   const soldListings = myListings.filter(l => l.status === 'sold');
 
   const stats = [
-    { label: 'Active Listings', value: activeListings.length, icon: ShoppingBag, color: 'text-green-600' },
+    { label: 'Active Listings', value: activeListings.length, icon: Package, color: 'text-green-600' },
     { label: 'Total Views', value: myListings.reduce((sum, l) => sum + (l.views || 0), 0), icon: Eye, color: 'text-blue-600' },
     { label: 'Inquiries', value: inquiries.length, icon: MessageSquare, color: 'text-purple-600' },
     { label: 'Saved Ads', value: myFavorites.length, icon: Heart, color: 'text-red-600' },
   ];
 
   const ListingItem = ({ listing, showCheckbox }) => (
-    <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-sm transition-shadow">
-      {showCheckbox && (
-        <Checkbox
-          checked={selectedListings.includes(listing.id)}
-          onCheckedChange={() => handleSelectListing(listing.id)}
-        />
-      )}
-      <img
-        src={listing.images?.[0] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=100'}
-        alt={listing.title}
-        className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-      />
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="font-medium text-[#111111] truncate">{listing.title}</h3>
-          <Badge 
-            variant="secondary" 
-            className={`text-[10px] ${
-              listing.status === 'active' ? 'bg-green-100 text-green-700' : 
-              listing.status === 'sold' ? 'bg-gray-100 text-gray-700' : 
-              listing.status === 'inactive' ? 'bg-orange-100 text-orange-700' :
-              'bg-yellow-100 text-yellow-700'
-            }`}
-          >
+    <motion.div 
+      initial={{ opacity: 0, y: 5 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-white rounded-2xl border border-gray-100 hover:border-orange-500 hover:shadow-xl hover:-translate-y-1 hover:bg-orange-50/30 transition-all duration-300"
+    >
+      <div className="flex items-center gap-3 w-full sm:w-auto">
+        {showCheckbox && (
+          <Checkbox
+            checked={selectedListings.includes(listing.id)}
+            onCheckedChange={() => handleSelectListing(listing.id)}
+            className="data-[state=checked]:bg-[#F47524] data-[state=checked]:border-[#F47524]"
+          />
+        )}
+        <div className="relative overflow-hidden rounded-xl w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-gray-100">
+          <img
+            src={listing.images?.[0] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=100'}
+            alt={listing.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+            listing.status === 'active' ? 'bg-green-500 text-white' : 
+            listing.status === 'sold' ? 'bg-gray-500 text-white' : 
+            'bg-yellow-500 text-white'
+          }`}>
             {listing.status}
-          </Badge>
+          </div>
         </div>
-        <p className="text-[#F47524] font-semibold mt-1">
-          {listing.price ? `LKR ${listing.price.toLocaleString()}` : 'Contact for price'}
-        </p>
-        <div className="flex items-center gap-4 text-xs text-[#616367] mt-2">
-          <span className="flex items-center gap-1" title="Total views">
-            <Eye className="h-3 w-3" />
-            {listing.views || 0}
+      </div>
+
+      <div className="flex-1 min-w-0 w-full">
+        <div className="flex justify-between items-start gap-2">
+          <div>
+            <h3 className="font-semibold text-gray-900 line-clamp-1 text-lg group-hover:text-[#F47524] transition-colors">{listing.title}</h3>
+            <p className="text-[#F47524] font-bold text-lg mt-0.5">
+              {listing.price ? `LKR ${listing.price.toLocaleString()}` : 'Contact for price'}
+            </p>
+          </div>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="-mr-2 text-gray-400 hover:text-gray-600">
+                <MoreVertical className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild>
+                <Link to={createPageUrl(`ListingDetail?id=${listing.id}`)} className="cursor-pointer">
+                  <Eye className="mr-2 h-4 w-4" />
+                  View Listing
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to={createPageUrl(`EditListing?id=${listing.id}`)} className="cursor-pointer">
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit Details
+                </Link>
+              </DropdownMenuItem>
+              {listing.status === 'active' ? (
+                <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'inactive' })} className="cursor-pointer">
+                  <PauseCircle className="mr-2 h-4 w-4" />
+                  Deactivate
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'active' })} className="cursor-pointer">
+                  <PlayCircle className="mr-2 h-4 w-4" />
+                  Activate
+                </DropdownMenuItem>
+              )}
+              {listing.status !== 'sold' && (
+                <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'sold' })} className="cursor-pointer">
+                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  Mark as Sold
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem onClick={() => relistMutation.mutate(listing)} className="cursor-pointer">
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Duplicate Listing
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="text-red-600 focus:text-red-600 cursor-pointer"
+                onClick={() => setDeleteId(listing.id)}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-gray-500 mt-3 bg-gray-50 p-2 rounded-lg border border-gray-100">
+          <span className="flex items-center gap-1.5" title="Total views">
+            <Eye className="h-4 w-4 text-blue-500" />
+            <span className="font-medium text-gray-700">{listing.views || 0}</span> Views
           </span>
-          <span className="flex items-center gap-1" title="Performance">
-            <TrendingUp className="h-3 w-3" />
-            {((listing.views || 0) / Math.max(1, Math.ceil((Date.now() - new Date(listing.created_date).getTime()) / (1000 * 60 * 60 * 24)))).toFixed(1)}/day
+          <span className="flex items-center gap-1.5" title="Performance">
+            <TrendingUp className="h-4 w-4 text-green-500" />
+            <span className="font-medium text-gray-700">
+              {((listing.views || 0) / Math.max(1, Math.ceil((Date.now() - new Date(listing.created_date).getTime()) / (1000 * 60 * 60 * 24)))).toFixed(1)}/day
+            </span>
           </span>
-          <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
+          <span className="flex items-center gap-1.5">
+            <Clock className="h-4 w-4 text-orange-500" />
             {listing.created_date && formatDistanceToNow(new Date(listing.created_date), { addSuffix: true })}
           </span>
         </div>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem asChild>
-            <Link to={createPageUrl(`ListingDetail?id=${listing.id}`)}>
-              <Eye className="mr-2 h-4 w-4" />
-              View Listing
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link to={createPageUrl(`EditListing?id=${listing.id}`)}>
-              <Edit className="mr-2 h-4 w-4" />
-              Edit
-            </Link>
-          </DropdownMenuItem>
-          {listing.status === 'active' ? (
-            <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'inactive' })}>
-              <PauseCircle className="mr-2 h-4 w-4" />
-              Deactivate
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'active' })}>
-              <PlayCircle className="mr-2 h-4 w-4" />
-              Activate
-            </DropdownMenuItem>
-            )}
-            {listing.status !== 'sold' && (
-            <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: listing.id, status: 'sold' })}>
-              <CheckCircle2 className="mr-2 h-4 w-4" />
-              Mark as Sold
-            </DropdownMenuItem>
-            )}
-            <DropdownMenuItem onClick={() => relistMutation.mutate(listing)}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Duplicate Listing
-            </DropdownMenuItem>
-          <DropdownMenuItem 
-            className="text-red-600"
-            onClick={() => setDeleteId(listing.id)}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    </motion.div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
-      {/* Profile Header */}
-      <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <div className="relative">
-              <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center">
-                <User className="h-10 w-10 text-gray-400" />
-              </div>
-              {myProfile?.verified && (
-                <BadgeCheck className="absolute -bottom-1 -right-1 h-6 w-6 text-blue-400 bg-white rounded-full" />
-              )}
+    <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
+      {/* Sidebar */}
+      <div className="w-full lg:w-72 bg-white border-r h-auto lg:min-h-[calc(100vh-64px)] p-6 flex flex-col gap-2 shadow-sm z-20">
+        <div className="mb-2 px-2">
+            <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Menu</h2>
+            <div className="space-y-1 font-medium text-sm">
+                <SidebarItem icon={LayoutDashboard} label="Overview" value="overview" />
+                <SidebarItem icon={Package} label="My Listings" value="listings" />
+                <SidebarItem icon={Heart} label="Saved Ads" value="favorites" onClick={() => navigate(createPageUrl('Favorites'))} isLink />
+                <SidebarItem icon={Calendar} label="Bookings" value="bookings" />
+                <SidebarItem icon={MessageSquare} label="Inquiries" value="inquiries" />
+                <SidebarItem icon={MessageSquare} label="Messages" value="messages_page" onClick={() => navigate(createPageUrl('Messages'))} isLink />
             </div>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold font-['Poppins']">
-                {user.role === 'admin' ? `Hello Admin ${user.full_name?.split(' ')[0]}!` : (user.full_name || 'Welcome!')}
-              </h1>
-              <p className="text-gray-400 mt-1">{user.email}</p>
-              <div className="flex gap-2 mt-2">
-                <Badge className={`${user.role === 'admin' ? 'bg-purple-500 hover:bg-purple-600' : 'bg-white/10'} text-white border-0`}>
-                  {user.role === 'admin' ? 'Administrator' : (myProfile?.role?.replace('_', ' ') || 'User')}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <Link to={createPageUrl('PostAd')}>
-                <Button className="bg-[#F47524] hover:bg-[#E06418]">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Post New Ad
-                </Button>
-              </Link>
-              <Link to={createPageUrl('Settings')}>
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
-                  <Settings className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+        </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="bg-white/10 rounded-xl p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                    <stat.icon className="h-5 w-5 text-[#F47524]" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold">{stat.value}</p>
-                    <p className="text-xs text-gray-400">{stat.label}</p>
-                  </div>
+        {user.role === 'admin' && (
+            <div className="mb-2 px-2 space-y-2">
+                <h2 className="text-xs font-bold text-orange-500 uppercase tracking-wider mb-2">Admin</h2>
+                <div className="space-y-1 font-medium text-sm">
+                    <SidebarItem icon={Users} label="All Users" value="users" />
+                    <SidebarItem icon={Star} label="Reviews" value="reviews" />
+                    <SidebarItem icon={Database} label="Admin Tools" value="admintools" onClick={() => navigate(createPageUrl('AdminTools'))} isLink />
                 </div>
-              </div>
-            ))}
-          </div>
+            </div>
+        )}
+
+        <div className="mt-4 px-2 pt-3 border-t font-medium text-sm">
+            <SidebarItem icon={Settings} label="Settings" value="settings" onClick={() => navigate(createPageUrl('Settings'))} isLink />
+            
+            <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-1 px-4 py-2 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 group mt-1"
+            >
+                <LogOut className="h-5 w-5 text-red-500 group-hover:text-red-700" />
+                <span>Log Out</span>
+            </button>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <Tabs defaultValue="listings" className="space-y-6">
-          <TabsList className="bg-white shadow-sm">
-            <TabsTrigger value="listings">My Listings</TabsTrigger>
-            <TabsTrigger value="favorites">Saved Ads</TabsTrigger>
-            <TabsTrigger value="bookings">Bookings</TabsTrigger>
-            <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
-            {user?.role === 'admin' && (
-              <>
-                <TabsTrigger value="users">All Users</TabsTrigger>
-                <TabsTrigger value="reviews">
-                  Reviews
-                  {pendingReviews.length > 0 && (
-                    <Badge className="ml-2 bg-red-500 text-white">{pendingReviews.length}</Badge>
-                  )}
-                </TabsTrigger>
-              </>
-            )}
-          </TabsList>
+      {/* Main Content */}
+      <div className="flex-1 overflow-x-hidden">
+        {/* Header Section */}
+        <div className="bg-white border-b px-8 py-6 sticky top-0 z-10 shadow-sm/50 backdrop-blur-xl bg-white/80">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 font-['Poppins']">
+                {/*{activeTab === 'overview' && 'Dashboard Overview'}*/}
+                {activeTab === 'listings' && 'My Listings'}
+                {activeTab === 'bookings' && 'My Bookings'}
+                {activeTab === 'inquiries' && 'Inquiries'}
+                {activeTab === 'users' && 'User Management'}
+                {activeTab === 'reviews' && 'Reviews Management'}
+              </h1>
+              <div className="flex items-center gap-3 mt-1">
+                <p className="text-2xl text-gray-500 font-['Poppins']">
+                  Welcome back, <span className="text-[#F47524] font-medium">{user.full_name}</span>
+                </p>
+                <Badge variant="secondary" className="bg-orange-50 text-purple-700 hover:bg-orange-100 border-none px-3 py-1 self-center mt-1">
+                    {user.role === 'admin' ? 'Administrator' : (myProfile?.role?.replace('_', ' ') || 'User')}
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+               <Link to={createPageUrl('PostAd')}>
+                 <Button className="bg-[#F47524] hover:bg-[#E06418] shadow-lg shadow-orange-500/20">
+                    <Package className="mr-2 h-4 w-4" />
+                    Post Ad
+                 </Button>
+               </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6 lg:p-8">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+
+          <TabsContent value="overview" className="space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+            >
+              {[
+                { label: 'Active Listings', value: activeListings.length, icon: ShoppingBag, color: 'bg-green-100 text-green-600' },
+                { label: 'Total Views', value: myListings.reduce((sum, l) => sum + (l.views || 0), 0), icon: Eye, color: 'bg-blue-100 text-blue-600' },
+                { label: 'Inquiries', value: inquiries.length, icon: MessageSquare, color: 'bg-purple-100 text-purple-600' },
+                { label: 'Message Threads', value: 0, icon: Mail, color: 'bg-orange-100 text-orange-600' }, 
+              ].map((stat, idx) => (
+                <div key={idx} className="bg-white rounded-2xl p-5 shadow-lg border border-gray-300 hover:shadow-xl hover:border-orange-500 hover:-translate-y-1 hover:bg-orange-50/30 transition-all duration-300">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-gray-500 text-sm font-medium">{stat.label}</p>
+                      <h3 className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</h3>
+                    </div>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color} transition-transform group-hover:scale-110`}>
+                      <stat.icon className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded w-fit">
+                    <TrendingUp className="h-3 w-3 mr-1" />
+                    +12% this week
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Recent Activity / Inquiries Preview */}
+              <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg border border-gray-300 hover:shadow-xl hover:border-orange-500 hover:-translate-y-1 transition-all duration-300">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-gray-900 ">Recent Inquiries</h3>
+                  <Link to={createPageUrl('Messages')} className="text-sm text-[#F47524] hover:underline">View all</Link>
+                </div>
+                {inquiries.length > 0 ? (
+                  <div className="space-y-4">
+                    {inquiries.slice(0, 3).map((inquiry) => (
+                      <div key={inquiry.id} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 hover:bg-white hover:shadow-lg hover:border-orange-200 border border-transparent transition-all duration-300">
+                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-lg shadow-sm font-bold text-[#F47524]">
+                          {inquiry.requester_name?.[0] || '?'}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-semibold text-gray-900">{inquiry.requester_name}</h4>
+                            <span className="text-xs text-gray-500">
+                              {inquiry.created_date && formatDistanceToNow(new Date(inquiry.created_date), { addSuffix: true })}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1 line-clamp-1">{inquiry.description}</p>
+                          <div className="flex items-center gap-2 mt-2">
+                             <Badge variant="outline" className="text-xs">{inquiry.service_type}</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <MessageSquare className="h-10 w-10 text-gray-300 mx-auto mb-3" />
+                    <p className="text-gray-500">No inquiries yet</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Quick Actions / Tips */}
+              <div className="bg-gradient-to-br from-[#F47524] to-[#ff9f61] rounded-2xl p-6 text-white shadow-lg shadow-orange-500/20 hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-300">
+                <h3 className="text-lg font-bold mb-2">Boost Your Reach</h3>
+                <p className="text-white/90 text-sm mb-6">
+                  Complete your profile and post high-quality listings to attract more customers.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#F47524]">
+                      <BadgeCheck className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Verify Profile</p>
+                      <p className="text-xs text-white/80">Get the blue tick</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#F47524]">
+                      <Star className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Get Reviews</p>
+                      <p className="text-xs text-white/80">Build trust</p>
+                    </div>
+                  </div>
+                </div>
+                <Link to={createPageUrl('Settings')}>
+                  <Button className="w-full mt-6 bg-white text-[#F47524] hover:bg-gray-100 border-none">
+                    Complete Profile
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </TabsContent>
 
           <TabsContent value="listings" className="space-y-4">
             {loadingListings ? (
@@ -610,34 +755,41 @@ export default function Dashboard() {
                 {allUsers.map((u) => {
                   const userProfile = allProfiles.find(p => p.user_email === u.email);
                   return (
-                    <div key={u.id} className="bg-white rounded-xl p-5 border border-gray-100">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 5 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      key={u.id} 
+                      className="bg-white rounded-xl p-5 border border-gray-100 hover:border-orange-500 hover:shadow-xl hover:-translate-y-1 hover:bg-orange-50/30 transition-all duration-300 group"
+                    >
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                          <User className="h-6 w-6 text-gray-400" />
+                        <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-orange-50 transition-colors">
+                          <User className="h-6 w-6 text-gray-400 group-hover:text-[#F47524] transition-colors" />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-medium text-[#111111]">{u.full_name}</h3>
+                            <h3 className="font-medium text-[#111111] group-hover:text-[#F47524] transition-colors">{u.full_name}</h3>
                             <Badge variant="secondary" className={`text-xs ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100'}`}>
                               {u.role}
                             </Badge>
                           </div>
                           <p className="text-sm text-[#616367]">{u.email}</p>
                           {userProfile && (
-                            <p className="text-xs text-[#616367] mt-1">
-                              Profile: {userProfile.role} • {userProfile.city || 'No location'}
+                            <p className="text-xs text-[#616367] mt-1 flex items-center gap-1">
+                              <BadgeCheck className="h-3 w-3 text-blue-500" />
+                              {userProfile.role} • {userProfile.city || 'No location'}
                             </p>
                           )}
                         </div>
                         {userProfile && (
                           <Link to={createPageUrl(`ProfileDetail?id=${userProfile.id}`)}>
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" className="group-hover:bg-[#F47524] group-hover:text-white group-hover:border-[#F47524] transition-all">
                               View Profile
                             </Button>
                           </Link>
                         )}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -653,19 +805,25 @@ export default function Dashboard() {
               {pendingReviews.length > 0 ? (
               <div className="space-y-3">
                 {pendingReviews.map((review) => (
-                  <div key={review.id} className="bg-white rounded-xl p-5 border border-orange-200">
+                  <motion.div 
+                    initial={{ opacity: 0, x: -5 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    key={review.id} 
+                    className="bg-white rounded-xl p-6 border border-orange-100 hover:border-orange-500 hover:shadow-xl hover:-translate-y-1 hover:bg-orange-50/30 transition-all duration-300"
+                  >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <Badge variant="secondary" className="bg-orange-100 text-orange-700">
+                          <Badge variant="secondary" className="bg-orange-100 text-orange-700 animate-pulse">
                             Pending Approval
                           </Badge>
-                          <Badge variant="outline">
+                          <Badge variant="outline" className="border-gray-200">
                             {review.target_type}
                           </Badge>
                         </div>
-                        <p className="font-medium text-[#111111] mb-1">{review.target_name}</p>
-                        <div className="flex mb-2">
+                        <p className="font-bold text-[#111111] mb-1 text-lg">{review.target_name}</p>
+                        <div className="flex mb-3">
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
@@ -675,9 +833,12 @@ export default function Dashboard() {
                             />
                           ))}
                         </div>
-                        <p className="text-sm text-[#616367] mb-2">{review.text}</p>
-                        <p className="text-xs text-[#616367]">
-                          By: {review.reviewer_name} ({review.reviewer_email})
+                        <div className="bg-gray-50 p-4 rounded-lg mb-3">
+                           <p className="text-sm text-gray-700 italic">"{review.text}"</p>
+                        </div>
+                        <p className="text-xs text-[#616367] flex items-center gap-1">
+                          <User className="h-3 w-3" />
+                          By: <span className="font-medium">{review.reviewer_name}</span> ({review.reviewer_email})
                         </p>
                       </div>
                       <div className="flex gap-2">
@@ -700,7 +861,7 @@ export default function Dashboard() {
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               ) : (
@@ -711,8 +872,11 @@ export default function Dashboard() {
               </div>
               )}
               </TabsContent>
-              </Tabs>
-              </div>
+          </Tabs>
+        </div>
+      </div>
+
+
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>

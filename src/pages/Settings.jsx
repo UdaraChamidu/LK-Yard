@@ -101,15 +101,17 @@ export default function Settings() {
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
       {/* Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-2xl mx-auto px-4 py-4">
+      <div className="bg-white border-b mb-8 sticky top-0 z-10 shadow-sm">
+        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors bg-gray-50 hover:bg-orange-50 px-3 py-1.5 rounded-lg"
           >
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back</span>
+            <ArrowLeft className="h-4 w-4" />
+            <span className="text-sm font-medium">Back</span>
           </button>
+          <h1 className="text-lg font-bold text-gray-900 font-['Poppins']">Settings</h1>
+          <div className="w-16"></div> 
         </div>
       </div>
 
@@ -117,9 +119,11 @@ export default function Settings() {
         <h1 className="text-2xl font-bold text-gray-900 font-['Poppins']">Settings</h1>
 
         {/* Profile Section */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <User className="h-5 w-5 text-[#F47524]" />
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+          <h2 className="font-bold text-gray-900 mb-6 flex items-center gap-3 text-lg">
+            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+              <User className="h-4 w-4 text-[#F47524]" />
+            </div>
             Profile Information
           </h2>
           
@@ -168,9 +172,11 @@ export default function Settings() {
         </div>
 
         {/* Language */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Globe className="h-5 w-5 text-[#F47524]" />
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+          <h2 className="font-bold text-gray-900 mb-6 flex items-center gap-3 text-lg">
+            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+              <Globe className="h-4 w-4 text-[#F47524]" />
+            </div>
             Language & Region
           </h2>
           
@@ -193,9 +199,11 @@ export default function Settings() {
         </div>
 
         {/* Notifications */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Bell className="h-5 w-5 text-[#F47524]" />
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+          <h2 className="font-bold text-gray-900 mb-6 flex items-center gap-3 text-lg">
+            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+              <Bell className="h-4 w-4 text-[#F47524]" />
+            </div>
             Notifications
           </h2>
           
@@ -225,9 +233,11 @@ export default function Settings() {
         </div>
 
         {/* Security */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Shield className="h-5 w-5 text-[#F47524]" />
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+          <h2 className="font-bold text-gray-900 mb-6 flex items-center gap-3 text-lg">
+            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+              <Shield className="h-4 w-4 text-[#F47524]" />
+            </div>
             Security
           </h2>
           
@@ -265,15 +275,15 @@ export default function Settings() {
         <Button
           onClick={handleSave}
           disabled={isSaving}
-          className="w-full bg-[#F47524] hover:bg-[#E06418] h-12"
+          className="w-full bg-[#F47524] hover:bg-[#E06418] h-12 rounded-xl text-lg font-medium shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300"
         >
           {isSaving ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : saved ? (
-            <>
-              <Check className="mr-2 h-4 w-4" />
-              Saved!
-            </>
+            <span className="flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
+              <Check className="h-5 w-5" />
+              Saved Successfully
+            </span>
           ) : (
             'Save Changes'
           )}

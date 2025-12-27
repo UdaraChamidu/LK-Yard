@@ -46,14 +46,14 @@ export default function Favorites() {
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
       {/* Header */}
-      <div className="bg-white border-b sticky top-16 z-10">
+      <div className="bg-white/80 backdrop-blur-md border-b border-orange-100 sticky top-16 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="lg:hidden">
-              <ArrowLeft className="h-5 w-5" />
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="lg:hidden hover:bg-orange-50">
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
             </Button>
             <div>
-              <h1 className="text-xl font-bold text-[#111111] flex items-center gap-2">
+              <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-['Poppins']">
                 <Heart className="h-5 w-5 text-[#F47524] fill-[#F47524]" />
                 Saved Ads
               </h1>
@@ -76,7 +76,7 @@ export default function Favorites() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {myFavorites.map((fav) => (
               <Link key={fav.id} to={createPageUrl(`ListingDetail?id=${fav.listing_id}`)} className="group">
-                <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-all h-full flex flex-col">
+                <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-500 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
                   <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                     {fav.listing_image ? (
                         <img 

@@ -295,40 +295,51 @@ export default function AdminTools() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Database className="h-6 w-6 text-[#F47524]" />
+      <div className="mb-8 border-b pb-6">
+        <h1 className="text-3xl font-bold flex items-center gap-3 text-gray-900 font-['Poppins']">
+          <div className="bg-orange-100 p-2 rounded-xl">
+            <Database className="h-8 w-8 text-[#F47524]" />
+          </div>
           Admin Tools: Data Seeder
         </h1>
-        <p className="text-gray-600 mt-2">
-          Use this tool to populate your Firebase database with sample data.
+        <p className="text-gray-600 mt-2 ml-14 max-w-2xl">
+          Use this tool to populate your Firebase database with sample data for testing and development.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl border shadow-sm">
-          <h2 className="font-semibold text-lg mb-4">Sample Profiles</h2>
-          <p className="text-sm text-gray-500 mb-4">
+        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-500 hover:-translate-y-1 transition-all duration-300">
+          <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+            Sample Profiles
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">
             Adds sample professionals and subcontractors (Engineers, Architects, Masons).
           </p>
-          <Button onClick={seedProfiles} disabled={loading} className="w-full bg-[#F47524]">
+          <Button onClick={seedProfiles} disabled={loading} className="w-full bg-[#F47524] hover:bg-[#E06418] rounded-xl h-11 shadow-lg shadow-orange-500/20">
             Seed Profiles
           </Button>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border shadow-sm">
-          <h2 className="font-semibold text-lg mb-4">Sample Listings</h2>
-          <p className="text-sm text-gray-500 mb-4">
+        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-500 hover:-translate-y-1 transition-all duration-300">
+          <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
+             <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+             Sample Listings
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">
             Adds sample tool sales and machinery rentals.
           </p>
-          <Button onClick={seedListings} disabled={loading} className="w-full bg-[#111111]">
+          <Button onClick={seedListings} disabled={loading} className="w-full bg-[#111111] hover:bg-[#2d2d2d] rounded-xl h-11">
             Seed Listings
           </Button>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border shadow-sm border-blue-100 bg-blue-50">
-          <h2 className="font-semibold text-lg mb-4 text-blue-900">Admin Access</h2>
-          <p className="text-sm text-blue-700 mb-4">
+        <div className="bg-white p-6 rounded-xl border border-blue-100 bg-blue-50/50 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
+          <h2 className="font-semibold text-lg mb-4 text-blue-900 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+            Admin Access
+          </h2>
+          <p className="text-sm text-blue-700 mb-6">
             Promote your current account ({user?.email}) to Admin status.
           </p>
           <Button 
@@ -347,7 +358,7 @@ export default function AdminTools() {
               }
             }} 
             disabled={loading || user?.role === 'admin'} 
-            className="w-full bg-blue-600 hover:bg-blue-700"
+            className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl h-11"
           >
             {user?.role === 'admin' ? 'You are an Admin' : 'Promote to Admin'}
           </Button>

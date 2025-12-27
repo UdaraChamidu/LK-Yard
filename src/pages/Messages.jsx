@@ -149,27 +149,30 @@ export default function Messages() {
               <button
                 key={thread.id}
                 onClick={() => setSelectedThread(thread.id)}
-                className={`w-full p-4 flex items-start gap-3 hover:bg-gray-50 transition-colors border-b ${
-                  selectedThread === thread.id ? 'bg-orange-50' : ''
+                className={`w-full p-4 flex items-start gap-4 hover:bg-orange-50/50 transition-all border-b border-gray-50 relative group ${
+                  selectedThread === thread.id ? 'bg-orange-50 border-r-4 border-r-[#F47524]' : 'border-r-4 border-r-transparent'
                 }`}
               >
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="h-6 w-6 text-gray-400" />
+                <div className="relative">
+                  <div className="w-12 h-12 bg-white border-2 border-gray-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm group-hover:border-orange-200 transition-colors">
+                    <User className="h-6 w-6 text-gray-400 group-hover:text-orange-400" />
+                  </div>
+                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-gray-900 truncate">
+                    <h3 className={`font-semibold truncate transition-colors ${selectedThread === thread.id ? 'text-[#F47524]' : 'text-gray-900'}`}>
                       {thread.otherPerson || 'User'}
                     </h3>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-[10px] text-gray-400 font-medium">
                       {thread.lastMessage.created_date && 
-                        formatDistanceToNow(new Date(thread.lastMessage.created_date), { addSuffix: true })}
+                        formatDistanceToNow(new Date(thread.lastMessage.created_date), { addSuffix: false }).replace('about ', '')}
                     </span>
                   </div>
                   {thread.listing && (
-                    <p className="text-xs text-[#F47524] truncate">{thread.listing}</p>
+                    <p className="text-xs text-orange-600/80 font-medium truncate mb-0.5">{thread.listing}</p>
                   )}
-                  <p className="text-sm text-gray-500 truncate mt-1">
+                  <p className="text-sm text-gray-500 truncate leading-snug group-hover:text-gray-700">
                     {thread.lastMessage.content}
                   </p>
                 </div>
@@ -189,23 +192,28 @@ export default function Messages() {
         {currentThread ? (
           <>
             {/* Chat Header */}
-            <div className="bg-white border-b p-4 flex items-center gap-4">
+            <div className="bg-white border-b px-6 py-4 flex items-center gap-4 shadow-sm z-10">
               <button
                 onClick={() => setSelectedThread(null)}
-                className="md:hidden"
+                className="md:hidden p-2 -ml-2 hover:bg-gray-50 rounded-full"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5 text-gray-600" />
               </button>
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                <User className="h-5 w-5 text-gray-400" />
+              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center border border-orange-100">
+                <User className="h-5 w-5 text-[#F47524]" />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="font-medium text-gray-900">{currentThread.otherPerson || 'User'}</h2>
+                <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                  {currentThread.otherPerson || 'User'}
+                  <Badge variant="secondary" className="bg-green-100 text-green-700 text-[10px] px-1.5 py-0 h-5">Online</Badge>
+                </h2>
                 {currentThread.listing && (
-                  <p className="text-xs text-gray-500 truncate">{currentThread.listing}</p>
+                  <p className="text-xs text-gray-500 truncate flex items-center gap-1">
+                    Regarding: <span className="font-medium text-orange-600">{currentThread.listing}</span>
+                  </p>
                 )}
               </div>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="hover:bg-orange-50 hover:text-[#F47524]">
                 <Phone className="h-4 w-4" />
               </Button>
             </div>
@@ -217,14 +225,14 @@ export default function Messages() {
                 .map((msg) => {
                   const isOwn = msg.sender_email === user.email;
                   return (
-                    <div key={msg.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[70%] rounded-2xl px-4 py-2 ${
+                    <div key={msg.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'} mb-4 animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                      <div className={`max-w-[75%] rounded-2xl px-5 py-3 shadow-sm ${
                         isOwn 
-                          ? 'bg-[#F47524] text-white rounded-br-md' 
-                          : 'bg-gray-100 text-gray-900 rounded-bl-md'
+                          ? 'bg-gradient-to-br from-[#F47524] to-[#ff8f4d] text-white rounded-br-sm' 
+                          : 'bg-white border border-gray-100 text-gray-800 rounded-bl-sm shadow-md'
                       }`}>
-                        <p className="text-sm">{msg.content}</p>
-                        <p className={`text-[10px] mt-1 ${isOwn ? 'text-white/70' : 'text-gray-400'}`}>
+                        <p className="text-sm leading-relaxed">{msg.content}</p>
+                        <p className={`text-[10px] mt-1.5 flex items-center justify-end ${isOwn ? 'text-white/80' : 'text-gray-400'}`}>
                           {msg.created_date && 
                             formatDistanceToNow(new Date(msg.created_date), { addSuffix: true })}
                         </p>
@@ -236,13 +244,16 @@ export default function Messages() {
             </div>
 
             {/* Input */}
-            <div className="bg-white border-t p-4">
-              <div className="flex items-end gap-3">
+            <div className="p-4 bg-white border-t">
+              <div className="bg-gray-50 p-2 rounded-2xl border border-gray-200 focus-within:border-orange-300 focus-within:ring-4 focus-within:ring-orange-100 transition-all flex items-end gap-2 shadow-inner">
+                <Button variant="ghost" size="icon" className="h-10 w-10 text-gray-400 hover:text-gray-600 rounded-xl mb-0.5">
+                  <Image className="h-5 w-5" />
+                </Button>
                 <Textarea
                   placeholder="Type a message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  className="flex-1 min-h-[44px] max-h-32 resize-none"
+                  className="flex-1 min-h-[44px] max-h-32 resize-none border-none bg-transparent focus-visible:ring-0 px-2 py-3 text-gray-700 placeholder:text-gray-400"
                   rows={1}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -254,7 +265,7 @@ export default function Messages() {
                 <Button 
                   onClick={handleSend}
                   disabled={!newMessage.trim() || sendMutation.isPending}
-                  className="bg-[#F47524] hover:bg-[#E06418] h-11 w-11"
+                  className="bg-[#F47524] hover:bg-[#E06418] h-10 w-10 rounded-xl shadow-lg shadow-orange-500/20 mb-0.5 transition-all hover:scale-105 active:scale-95"
                   size="icon"
                 >
                   <Send className="h-4 w-4" />
