@@ -52,7 +52,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
       <div className="flex">
         {/* Fixed Sidebar */}
-        <aside className="hidden lg:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 z-30 overflow-y-auto pb-4">
+        <aside className="hidden lg:flex flex-col fixed left-3 top-16 bottom-0 w-64 bg-white border-r border-gray-200 z-30 overflow-y-auto pb-4">
           <div className="p-4 border-b border-gray-100">
             <h2 className="font-semibold text-gray-900 font-heading">Categories</h2>
           </div>

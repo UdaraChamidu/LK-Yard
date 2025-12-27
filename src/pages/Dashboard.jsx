@@ -361,7 +361,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
       {/* Sidebar */}
-      <div className="w-full lg:w-72 bg-white border-r h-auto lg:min-h-[calc(100vh-64px)] p-6 flex flex-col gap-2 shadow-sm z-20">
+      <div className="w-full lg:w-72 bg-white border-r h-auto lg:min-h-[calc(100vh-64px)] p-6 flex flex-col gap-2 shadow-sm z-20 ">
         <div className="mb-2 px-2">
             <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Menu</h2>
             <div className="space-y-1 font-medium text-sm">
