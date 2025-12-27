@@ -185,7 +185,7 @@ export default function Home() {
                       <div className="p-1 bg-white/20 rounded-full">
                         <Check className="h-3 w-3" />
                       </div>
-                      <span className="font-medium text-orange-50">Reach 10k+ active buyers</span>
+                      <span className="font-medium text-orange-50">Reach many active buyers</span>
                     </li>
 
                     <li className="flex items-center gap-2 text-sm">
@@ -198,7 +198,7 @@ export default function Home() {
                   
                   <Link to={createPageUrl('PostAd')} className="mt-auto">
                     <Button className="w-full bg-white text-[#F47524] hover:bg-orange-50 font-semibold shadow-md border-0 h-11">
-                      Post Free Ad Now
+                      Post Your Ad Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
@@ -229,31 +229,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Listings Grid */}
             {isLoading ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {[...Array(6)].map((_, i) => (
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-4`}>
+                {[...Array(8)].map((_, i) => (
                   <div key={i} className="bg-gray-100 rounded-xl h-64 animate-pulse" />
                 ))}
               </div>
             ) : filteredListings.length > 0 ? (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, staggerChildren: 0.1 }}
-                className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-4`}
-              >
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-4`}>
                 {filteredListings.map((listing) => (
-                  <motion.div
-                    key={listing.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ListingCard listing={listing} variant={viewMode} />
-                  </motion.div>
+                  <ListingCard key={listing.id} listing={listing} variant={viewMode} />
                 ))}
-              </motion.div>
+              </div>
             ) : (
               <div className="text-center py-16 bg-white rounded-xl">
                 <p className="text-[#616367]">No listings available</p>

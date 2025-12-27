@@ -113,14 +113,14 @@ export default function Jobs() {
   const JobCard = ({ job }) => (
     <Link
       to={createPageUrl(`ListingDetail?id=${job.id}`)}
-      className="block bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all border border-gray-100"
+      className="block group bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl hover:-translate-y-1 hover:ring-2 hover:ring-primary hover:border-transparent transition-all duration-300 border border-gray-400"
     >
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
-          <Building2 className="h-6 w-6 text-gray-400" />
+        <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-50 transition-colors">
+          <Building2 className="h-6 w-6 text-gray-400 group-hover:text-blue-600 transition-colors" />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 line-clamp-1">{job.title}</h3>
+          <h3 className="font-semibold text-gray-900 line-clamp-1 group-hover:text-[#F47524] transition-colors">{job.title}</h3>
           <p className="text-gray-500 text-sm mt-1">{job.owner_name || 'Company'}</p>
           <div className="flex flex-wrap gap-2 mt-3">
             <Badge variant="secondary" className="bg-blue-50 text-blue-700 text-xs">
@@ -328,13 +328,13 @@ export default function Jobs() {
             </div>
 
             {isLoading ? (
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="bg-gray-100 rounded-xl h-32 animate-pulse" />
                 ))}
               </div>
             ) : sortedListings.length > 0 ? (
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {sortedListings.map((job) => (
                   <JobCard key={job.id} job={job} />
                 ))}

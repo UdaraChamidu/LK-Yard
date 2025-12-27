@@ -22,7 +22,7 @@ export default function ProfileCard({ profile, showActions = true }) {
   };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100">
+    <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 hover:ring-2 hover:ring-primary hover:border-transparent transition-all duration-300 border border-gray-400">
       <div className="p-5">
         <div className="flex items-start gap-4">
           <div className="relative">
@@ -95,7 +95,7 @@ export default function ProfileCard({ profile, showActions = true }) {
         {showActions && (
           <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
             <Link to={createPageUrl(`Profile/${profile.id}`)} className="flex-1">
-              <Button variant="outline" className="w-full text-sm">
+              <Button variant="outline" className="w-full text-sm border-[#F47524] text-[#F47524] hover:text-[#F47524] hover:bg-orange-50 bg-white">
                 View Profile
               </Button>
             </Link>
