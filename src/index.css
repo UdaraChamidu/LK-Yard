@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,60 +8,43 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-
     --primary: 23 89% 55%; /* #F47524 */
     --primary-foreground: 0 0% 98%;
-
     --secondary: 210 3% 39%; /* #616367 */
     --secondary-foreground: 0 0% 98%;
-
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-
     --accent: 0 0% 7%; /* #111111 */
     --accent-foreground: 0 0% 98%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 23 89% 55%;
-
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
- 
+
   .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
- 
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
- 
     --popover: 224 71% 4%;
     --popover-foreground: 213 31% 91%;
- 
     --primary: 23 89% 55%;
     --primary-foreground: 224 71% 45%;
- 
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
- 
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 215 20.2% 65.1%;
- 
     --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 20% 98%;
- 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
- 
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 23 89% 55%;
@@ -72,10 +55,35 @@
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Custom Scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-[#F47524] transition-colors;
   }
 }

@@ -23,7 +23,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
     return (
       <Link
         to={createPageUrl(`Listing/${listing.id}`)}
-        className="flex gap-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all border border-gray-100"
+        className="flex gap-4 bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 hover:ring-2 hover:ring-primary hover:border-transparent transition-all duration-300 border border-gray-400 group"
       >
         <div className="relative w-32 h-32 flex-shrink-0">
           <img
@@ -67,7 +67,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
   return (
     <Link
       to={createPageUrl(`Listing/${listing.id}`)}
-      className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
+      className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 hover:ring-2 hover:ring-primary hover:border-transparent transition-all duration-300 border border-gray-400"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -76,7 +76,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {listing.featured && (
-          <Badge className="absolute top-3 left-3 bg-[#F47524] text-white">
+          <Badge className="absolute top-3 left-3 bg-primary/90 backdrop-blur-md text-primary-foreground shadow-md">
             Featured
           </Badge>
         )}
@@ -93,7 +93,7 @@ export default function ListingCard({ listing, variant = 'grid' }) {
         <h3 className="font-semibold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-[#F47524] transition-colors">
           {listing.title}
         </h3>
-        <p className="text-lg font-bold text-[#F47524] mt-2">
+        <p className="text-xl font-bold text-primary mt-2">
           {formatPrice(listing.price)}
           <span className="text-sm font-normal text-gray-500 ml-1">
             {priceTypeLabels[listing.price_type]}

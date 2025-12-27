@@ -59,25 +59,9 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <style>{`
-        :root {
-          --primary: #F47524;
-          --primary-hover: #E06418;
-          --secondary: #616367;
-          --accent: #111111;
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
-        body {
-          font-family: 'Montserrat', sans-serif;
-        }
-        h1, h2, h3, h4, h5, h6 {
-          font-family: 'Poppins', sans-serif;
-        }
-      `}</style>
-
+    <div className="min-h-screen bg-gray-100 font-sans text-foreground">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
+      <header className="glass sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -87,7 +71,7 @@ export default function Layout({ children, currentPageName }) {
                 alt="LKYard"
                 className="w-10 h-10 object-contain"
               />
-              <span className="hidden sm:block text-xl font-semibold text-[#111111] font-['Poppins']">
+              <span className="hidden sm:block text-xl font-semibold text-accent font-heading">
                 LKYard
               </span>
             </Link>
@@ -139,7 +123,7 @@ export default function Layout({ children, currentPageName }) {
 
               {/* Post Ad Button */}
               <Link to={createPageUrl('PostAd')} className="hidden sm:flex">
-                <Button className="bg-[#F47524] hover:bg-[#E06418] text-white font-medium">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-glow hover:shadow-lg transition-all">
                   <Plus className="mr-1 h-4 w-4" />
                   Post Ad
                 </Button>
@@ -267,7 +251,7 @@ export default function Layout({ children, currentPageName }) {
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-['Poppins']">Categories</h4>
+              <h4 className="font-semibold mb-4 font-heading">Categories</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to={createPageUrl('BuySell')} className="hover:text-white">Tools & Materials</Link></li>
                 <li><Link to={createPageUrl('Subcontractors')} className="hover:text-white">Subcontractors</Link></li>
@@ -276,7 +260,7 @@ export default function Layout({ children, currentPageName }) {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-['Poppins']">Support</h4>
+              <h4 className="font-semibold mb-4 font-heading">Support</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to="#" className="hover:text-white">Help Center</Link></li>
                 <li><Link to="#" className="hover:text-white">Safety Tips</Link></li>
@@ -285,7 +269,7 @@ export default function Layout({ children, currentPageName }) {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-['Poppins']">Legal</h4>
+              <h4 className="font-semibold mb-4 font-heading">Legal</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to="#" className="hover:text-white">Terms of Service</Link></li>
                 <li><Link to="#" className="hover:text-white">Privacy Policy</Link></li>

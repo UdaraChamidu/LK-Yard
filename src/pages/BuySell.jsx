@@ -244,120 +244,123 @@ export default function BuySell() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search tools and materials..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+      <div className="flex">
+        {/* Fixed Sidebar */}
+        <aside className="hidden md:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 z-30 overflow-y-auto pb-4">
+          <div className="p-4 border-b border-gray-100">
+            <h2 className="font-semibold text-lg text-gray-900">Filters</h2>
+          </div>
+          <div className="p-4">
+             <FilterContent />
+          </div>
+        </aside>
 
-            {/* Sort & View */}
-            <div className="flex items-center gap-3">
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest First</SelectItem>
-                  <SelectItem value="price_low">Price: Low to High</SelectItem>
-                  <SelectItem value="price_high">Price: High to Low</SelectItem>
-                  <SelectItem value="popular">Most Popular</SelectItem>
-                </SelectContent>
-              </Select>
+        {/* Main Content */}
+        <div className="flex-1 md:pl-64 transition-all duration-300">
+          {/* Header (Search & Sort) - Moved Inside Content */}
+          <div className="bg-white border-b sticky top-16 z-20 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 py-4">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search tools and materials..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 h-10 border-gray-200 focus:border-primary focus:ring-primary/20"
+                  />
+                </div>
 
-              <div className="hidden md:flex items-center border rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-gray-100' : ''}`}
-                >
-                  <Grid3X3 className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-gray-100' : ''}`}
-                >
-                  <List className="h-4 w-4" />
-                </button>
+                {/* Sort & View */}
+                <div className="flex items-center gap-3">
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-40 h-10">
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="newest">Newest First</SelectItem>
+                      <SelectItem value="price_low">Price: Low to High</SelectItem>
+                      <SelectItem value="price_high">Price: High to Low</SelectItem>
+                      <SelectItem value="popular">Most Popular</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <div className="hidden md:flex items-center border border-gray-200 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-2 rounded ${viewMode === 'grid' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                      <Grid3X3 className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-2 rounded ${viewMode === 'list' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                      <List className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  {/* Mobile Filter Button */}
+                  <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="md:hidden h-10">
+                        <SlidersHorizontal className="h-4 w-4 mr-2" />
+                        Filters
+                        {hasActiveFilters && (
+                          <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-80">
+                      <SheetHeader>
+                        <SheetTitle>Filters</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6">
+                        <FilterContent />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </div>
               </div>
 
-              {/* Mobile Filter Button */}
-              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="md:hidden">
-                    <SlidersHorizontal className="h-4 w-4 mr-2" />
-                    Filters
-                    {hasActiveFilters && (
-                      <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
-                    )}
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80">
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-6">
-                    <FilterContent />
-                  </div>
-                </SheetContent>
-              </Sheet>
+              {/* Active Filters */}
+              {hasActiveFilters && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {selectedSubcategory !== 'All Items' && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {selectedSubcategory}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedSubcategory('All Items')} />
+                    </Badge>
+                  )}
+                  {selectedCondition !== 'all' && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {conditions.find(c => c.value === selectedCondition)?.label}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedCondition('all')} />
+                    </Badge>
+                  )}
+                  {selectedLocation !== 'All Locations' && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {selectedLocation}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedLocation('All Locations')} />
+                    </Badge>
+                  )}
+                  {verifiedOnly && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <BadgeCheck className="h-3 w-3" />
+                      Verified Only
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setVerifiedOnly(false)} />
+                    </Badge>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Active Filters */}
-          {hasActiveFilters && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {selectedSubcategory !== 'All Items' && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  {selectedSubcategory}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedSubcategory('All Items')} />
-                </Badge>
-              )}
-              {selectedCondition !== 'all' && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  {conditions.find(c => c.value === selectedCondition)?.label}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedCondition('all')} />
-                </Badge>
-              )}
-              {selectedLocation !== 'All Locations' && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <MapPin className="h-3 w-3" />
-                  {selectedLocation}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedLocation('All Locations')} />
-                </Badge>
-              )}
-              {verifiedOnly && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <BadgeCheck className="h-3 w-3" />
-                  Verified Only
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setVerifiedOnly(false)} />
-                </Badge>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex gap-6">
-          {/* Desktop Sidebar */}
-          <aside className="hidden md:block w-64 flex-shrink-0">
-            <div className="bg-white rounded-xl p-5 shadow-sm sticky top-36">
-              <h2 className="font-semibold text-lg text-gray-900 mb-4">Filters</h2>
-              <FilterContent />
-            </div>
-          </aside>
-
-          {/* Listings */}
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-4">
+          <div className="px-4 py-8 max-w-7xl mx-auto">
+            {/* Listings Count */}
+            <div className="flex items-center justify-between mb-6">
               <p className="text-gray-600">
                 <span className="font-semibold text-gray-900">{sortedListings.length}</span> items found
               </p>
@@ -376,15 +379,15 @@ export default function BuySell() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
+                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="h-8 w-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">No listings found</h3>
                 <p className="text-gray-500 mb-6">
                   Try adjusting your filters or search terms
                 </p>
-                <Button onClick={clearFilters} variant="outline">
+                <Button onClick={clearFilters} variant="outline" className="border-gray-200">
                   Clear All Filters
                 </Button>
               </div>

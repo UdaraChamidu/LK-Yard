@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: ["class"],
     content: [
       "./index.html",
       "./src/**/*.{js,ts,jsx,tsx}",
     ],
-    darkMode: 'class',
     theme: {
       extend: {
         colors: {
@@ -45,8 +45,31 @@ export default {
         fontFamily: {
             sans: ['Montserrat', 'sans-serif'],
             heading: ['Poppins', 'sans-serif'],
-        }
+        },
+        borderRadius: {
+            lg: "var(--radius)",
+            md: "calc(var(--radius) - 2px)",
+            sm: "calc(var(--radius) - 4px)",
+        },
+        boxShadow: {
+            soft: "0 10px 40px -10px rgba(0,0,0,0.08)",
+            glow: "0 0 20px rgba(244, 117, 36, 0.15)"
+        },
+        keyframes: {
+            "accordion-down": {
+                from: { height: "0" },
+                to: { height: "var(--radix-accordion-content-height)" },
+            },
+            "accordion-up": {
+                from: { height: "var(--radix-accordion-content-height)" },
+                to: { height: "0" },
+            },
+        },
+        animation: {
+            "accordion-down": "accordion-down 0.2s ease-out",
+            "accordion-up": "accordion-up 0.2s ease-out",
+        },
       },
     },
-    plugins: [],
+    plugins: [require("tailwindcss-animate")],
   }
