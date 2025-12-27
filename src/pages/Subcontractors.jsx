@@ -516,10 +516,10 @@ export default function Subcontractors() {
             </div>
 
             {isLoading ? (
-              <div className="grid md:grid-cols-2 gap-4">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-gray-100 rounded-xl h-48 animate-pulse" />
-                ))}
+              <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F47524] mb-4"></div>
+                <h3 className="text-xl font-bold text-gray-900 font-heading">Loading Workers...</h3>
+                <p className="text-gray-500 text-sm mt-2">Finding skilled subcontractors for you</p>
               </div>
             ) : sortedProfiles.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-4">
