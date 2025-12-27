@@ -138,9 +138,9 @@ export default function Home() {
             {/* Purpose & CTA Section */}
             <div className="grid md:grid-cols-3 gap-6">
               {/* Purpose Section */}
-              <div className="md:col-span-2 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm relative overflow-hidden">
+              <div className="md:col-span-2 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden">
                 <div className="relative z-10">
-                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Welcome to 
                     <span className="text-[#F47524]">    LKYard</span>
                   </h1>

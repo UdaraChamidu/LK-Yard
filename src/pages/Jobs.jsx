@@ -281,10 +281,10 @@ export default function Jobs() {
 
           {/* Hero & Description */}
           <div className="bg-gradient-to-b from-blue-50/50 to-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 py-10">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       Careers
                     </span>
@@ -292,11 +292,11 @@ export default function Jobs() {
                       <Building2 className="h-3 w-3" /> Top Companies
                     </span>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Find Construction <br/>
                     <span className="text-blue-600">Job Opportunities</span>
                   </h1>
-                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Explore career opportunities in Sri Lanka's construction industry. 
                     From site supervisors and engineers to skilled laborers, find the perfect role to advance your career with leading companies.
                   </p>

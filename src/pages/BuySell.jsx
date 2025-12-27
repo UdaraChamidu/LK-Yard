@@ -360,10 +360,10 @@ export default function BuySell() {
 
           {/* Hero & Description */}
           <div className="bg-gradient-to-b from-orange-50/50 to-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 py-10">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
                     <span className="bg-[#F47524]/10 text-[#F47524] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       Marketplace
                     </span>
@@ -371,11 +371,11 @@ export default function BuySell() {
                       <MapPin className="h-3 w-3" /> Island-wide
                     </span>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Construction Tools & <br/>
                     <span className="text-[#F47524]">Building Materials</span>
                   </h1>
-                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Discover the best deals on high-quality construction equipment, power tools, and raw materials. 
                     Whether you're a contractor or a DIY enthusiast, find everything you need from verified sellers across Sri Lanka.
                   </p>

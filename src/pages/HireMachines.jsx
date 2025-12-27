@@ -276,10 +276,10 @@ export default function HireMachines() {
 
           {/* Hero & Description */}
           <div className="bg-gradient-to-b from-green-50/50 to-white border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 py-10">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
                     <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       Machine Rental
                     </span>
@@ -287,11 +287,11 @@ export default function HireMachines() {
                       <Truck className="h-3 w-3" /> 50+ Types
                     </span>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Rent Heavy <br/>
                     <span className="text-green-600">Construction Machinery</span>
                   </h1>
-                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Access a wide range of heavy machinery for any project size. 
                     From excavators and backhoes to cranes and dump trucks, rent directly from verified owners at competitive rates.
                   </p>
