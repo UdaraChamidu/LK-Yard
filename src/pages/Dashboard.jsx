@@ -40,6 +40,10 @@ import {
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { formatDistanceToNow } from 'date-fns';
+import Messages from './Messages';
+import Favorites from './Favorites';
+// import Settings from './Settings';
+import AdminTools from './AdminTools';
 
 export default function Dashboard() {
   const queryClient = useQueryClient();
@@ -363,10 +367,10 @@ export default function Dashboard() {
             <div className="space-y-1 font-medium text-sm">
                 <SidebarItem icon={LayoutDashboard} label="Overview" value="overview" />
                 <SidebarItem icon={Package} label="My Listings" value="listings" />
-                <SidebarItem icon={Heart} label="Saved Ads" value="favorites" onClick={() => navigate(createPageUrl('Favorites'))} isLink />
+                <SidebarItem icon={Heart} label="Saved Ads" value="favorites" />
                 <SidebarItem icon={Calendar} label="Bookings" value="bookings" />
                 <SidebarItem icon={MessageSquare} label="Inquiries" value="inquiries" />
-                <SidebarItem icon={MessageSquare} label="Messages" value="messages_page" onClick={() => navigate(createPageUrl('Messages'))} isLink />
+                <SidebarItem icon={MessageSquare} label="Messages" value="messages_page" />
             </div>
         </div>
 
@@ -376,13 +380,13 @@ export default function Dashboard() {
                 <div className="space-y-1 font-medium text-sm">
                     <SidebarItem icon={Users} label="All Users" value="users" />
                     <SidebarItem icon={Star} label="Reviews" value="reviews" />
-                    <SidebarItem icon={Database} label="Admin Tools" value="admintools" onClick={() => navigate(createPageUrl('AdminTools'))} isLink />
+                    <SidebarItem icon={Database} label="Admin Tools" value="admintools" />
                 </div>
             </div>
         )}
 
         <div className="mt-4 px-2 pt-3 border-t font-medium text-sm">
-            <SidebarItem icon={Settings} label="Settings" value="settings" onClick={() => navigate(createPageUrl('Settings'))} isLink />
+            <SidebarItem icon={Settings} label="Settings" value="settings" />
             
             <button
                 onClick={handleLogout}
@@ -401,12 +405,16 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 font-['Poppins']">
-                {/*{activeTab === 'overview' && 'Dashboard Overview'}*/}
+                {activeTab === 'overview' && 'Dashboard Overview'}
                 {activeTab === 'listings' && 'My Listings'}
                 {activeTab === 'bookings' && 'My Bookings'}
                 {activeTab === 'inquiries' && 'Inquiries'}
                 {activeTab === 'users' && 'User Management'}
                 {activeTab === 'reviews' && 'Reviews Management'}
+                {activeTab === 'messages_page' && 'Messages'}
+                {activeTab === 'favorites' && 'Saved Ads'}
+                {activeTab === 'settings' && 'Account Settings'}
+                {activeTab === 'admintools' && 'Admin Tools'}
               </h1>
               <div className="flex items-center gap-3 mt-1">
                 <p className="text-2xl text-gray-500 font-['Poppins']">
@@ -872,6 +880,25 @@ export default function Dashboard() {
               </div>
               )}
               </TabsContent>
+
+          <TabsContent value="messages_page" className="h-full">
+            <div className="bg-white rounded-xl shadow-sm border overflow-hidden h-[calc(100vh-200px)]">
+               <Messages />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="favorites">
+             <Favorites />
+          </TabsContent>
+
+          <TabsContent value="settings">
+             <Settings />
+          </TabsContent>
+
+          <TabsContent value="admintools">
+             <AdminTools />
+          </TabsContent>
+
           </Tabs>
         </div>
       </div>

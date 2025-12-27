@@ -113,7 +113,7 @@ export default function Messages() {
   }
 
   return (
-    <div className="h-[calc(100vh-64px)] lg:h-[calc(100vh-64px)] bg-gray-50 flex pb-16 lg:pb-0">
+    <div className="h-full bg-gray-50 flex pb-16 lg:pb-0">
       {/* Thread List */}
       <div className={`w-full md:w-80 lg:w-96 bg-white border-r flex-shrink-0 flex flex-col ${
         selectedThread ? 'hidden md:flex' : 'flex'
