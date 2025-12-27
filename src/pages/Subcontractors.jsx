@@ -359,124 +359,127 @@ export default function Subcontractors() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
-      {/* Hero */}
-      <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-            Find Skilled Subcontractors
-          </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Connect with verified masons, plumbers, electricians, painters, and more across Sri Lanka
-          </p>
-        </div>
-      </div>
+      <div className="flex">
+        {/* Fixed Sidebar */}
+        <aside className="hidden md:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 z-30 overflow-y-auto pb-4">
+          <div className="p-4 border-b border-gray-100">
+            <h2 className="font-semibold text-lg text-gray-900">Filters</h2>
+          </div>
+          <div className="p-4">
+             <FilterContent />
+          </div>
+        </aside>
 
-      {/* Header */}
-      <div className="bg-white border-b sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search by name or skill..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+        {/* Main Content */}
+        <div className="flex-1 md:pl-64 transition-all duration-300">
+          {/* Header */}
+          <div className="glass sticky top-16 z-20">
+            <div className="max-w-7xl mx-auto px-4 py-4">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search by name or skill..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 h-10 border-gray-200 focus:border-primary focus:ring-primary/20"
+                  />
+                </div>
 
-            {/* Sort */}
-            <div className="flex items-center gap-3">
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-44">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="reviews">Most Reviews</SelectItem>
-                  <SelectItem value="rate_low">Rate: Low to High</SelectItem>
-                  <SelectItem value="rate_high">Rate: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
+                {/* Sort */}
+                <div className="flex items-center gap-3">
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-44 h-10">
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="rating">Highest Rated</SelectItem>
+                      <SelectItem value="reviews">Most Reviews</SelectItem>
+                      <SelectItem value="rate_low">Rate: Low to High</SelectItem>
+                      <SelectItem value="rate_high">Rate: High to Low</SelectItem>
+                    </SelectContent>
+                  </Select>
 
-              {/* Mobile Filter Button */}
-              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="md:hidden">
-                    <SlidersHorizontal className="h-4 w-4 mr-2" />
-                    Filters
-                    {hasActiveFilters && (
-                      <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
-                    )}
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80">
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-6">
-                    <FilterContent />
-                  </div>
-                </SheetContent>
-              </Sheet>
+                  {/* Mobile Filter Button */}
+                  <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="md:hidden h-10">
+                        <SlidersHorizontal className="h-4 w-4 mr-2" />
+                        Filters
+                        {hasActiveFilters && (
+                          <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-80">
+                      <SheetHeader>
+                        <SheetTitle>Filters</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6">
+                        <FilterContent />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </div>
+              </div>
+
+              {/* Active Filters */}
+              {hasActiveFilters && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {selectedCategory !== 'all' && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {mainCategories.find(c => c.value === selectedCategory)?.label}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedCategory('all')} />
+                    </Badge>
+                  )}
+                  {selectedServiceGroups.map((group) => (
+                    <Badge key={group} variant="secondary" className="flex items-center gap-1">
+                      {group}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => toggleServiceGroup(group)} />
+                    </Badge>
+                  ))}
+                  {selectedLocation !== 'All Locations' && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {selectedLocation}
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedLocation('All Locations')} />
+                    </Badge>
+                  )}
+                  {minRating > 0 && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Star className="h-3 w-3" />
+                      {minRating}+ rating
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setMinRating(0)} />
+                    </Badge>
+                  )}
+                  {verifiedOnly && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <BadgeCheck className="h-3 w-3" />
+                      Verified Only
+                      <X className="h-3 w-3 cursor-pointer" onClick={() => setVerifiedOnly(false)} />
+                    </Badge>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Active Filters */}
-          {hasActiveFilters && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {selectedCategory !== 'all' && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  {mainCategories.find(c => c.value === selectedCategory)?.label}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedCategory('all')} />
-                </Badge>
-              )}
-              {selectedServiceGroups.map((group) => (
-                <Badge key={group} variant="secondary" className="flex items-center gap-1">
-                  {group}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => toggleServiceGroup(group)} />
-                </Badge>
-              ))}
-              {selectedLocation !== 'All Locations' && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <MapPin className="h-3 w-3" />
-                  {selectedLocation}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setSelectedLocation('All Locations')} />
-                </Badge>
-              )}
-              {minRating > 0 && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <Star className="h-3 w-3" />
-                  {minRating}+ rating
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setMinRating(0)} />
-                </Badge>
-              )}
-              {verifiedOnly && (
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <BadgeCheck className="h-3 w-3" />
-                  Verified Only
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => setVerifiedOnly(false)} />
-                </Badge>
-              )}
+          {/* Hero */}
+          <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
+            <div className="max-w-7xl mx-auto px-4 text-center">
+              <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
+                Find Skilled Subcontractors
+              </h1>
+              <p className="text-gray-300 max-w-2xl mx-auto">
+                Connect with verified masons, plumbers, electricians, painters, and more across Sri Lanka
+              </p>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex gap-6">
-          {/* Desktop Sidebar */}
-          <aside className="hidden md:block w-64 flex-shrink-0">
-            <div className="bg-white rounded-xl p-5 shadow-sm sticky top-36">
-              <h2 className="font-semibold text-lg text-gray-900 mb-4">Filters</h2>
-              <FilterContent />
-            </div>
-          </aside>
-
-          {/* Profiles */}
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-4">
+          <div className="px-4 py-8 max-w-7xl mx-auto">
+            {/* Profiles Count */}
+            <div className="flex items-center justify-between mb-6">
               <p className="text-gray-600">
                 <span className="font-semibold text-gray-900">{sortedProfiles.length}</span> workers found
               </p>
@@ -495,15 +498,15 @@ export default function Subcontractors() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
+                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">No workers found</h3>
                 <p className="text-gray-500 mb-6">
                   Try adjusting your filters or search terms
                 </p>
-                <Button onClick={clearFilters} variant="outline">
+                <Button onClick={clearFilters} variant="outline" className="border-gray-200">
                   Clear All Filters
                 </Button>
               </div>

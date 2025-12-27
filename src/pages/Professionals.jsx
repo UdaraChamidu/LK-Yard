@@ -234,89 +234,91 @@ export default function Professionals() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-0">
-      {/* Hero */}
-      <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-4">
-            <Briefcase className="h-5 w-5" />
-            <span className="text-sm font-medium">Expert Professionals</span>
+      <div className="flex">
+        {/* Fixed Sidebar */}
+        <aside className="hidden md:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 z-30 overflow-y-auto pb-4">
+          <div className="p-4 border-b border-gray-100">
+            <h2 className="font-semibold text-lg text-gray-900">Filters</h2>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-            Hire Top Construction Professionals
-          </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Connect with verified Civil Engineers, Architects, Quantity Surveyors, and more for your dream project.
-          </p>
-        </div>
-      </div>
+          <div className="p-4">
+             <FilterContent />
+          </div>
+        </aside>
 
-      {/* Header */}
-      <div className="bg-white border-b sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search professionals..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+        {/* Main Content */}
+        <div className="flex-1 md:pl-64 transition-all duration-300">
+          {/* Header */}
+          <div className="glass sticky top-16 z-20">
+            <div className="max-w-7xl mx-auto px-4 py-4">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search professionals..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 h-10 border-gray-200 focus:border-primary focus:ring-primary/20"
+                  />
+                </div>
 
-            {/* Sort */}
-            <div className="flex items-center gap-3">
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-44">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="reviews">Most Reviewed</SelectItem>
-                  <SelectItem value="rate_low">Rate: Low to High</SelectItem>
-                  <SelectItem value="rate_high">Rate: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
+                {/* Sort */}
+                <div className="flex items-center gap-3">
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-44 h-10">
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="rating">Highest Rated</SelectItem>
+                      <SelectItem value="reviews">Most Reviewed</SelectItem>
+                      <SelectItem value="rate_low">Rate: Low to High</SelectItem>
+                      <SelectItem value="rate_high">Rate: High to Low</SelectItem>
+                    </SelectContent>
+                  </Select>
 
-              {/* Mobile Filter Button */}
-              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="md:hidden">
-                    <SlidersHorizontal className="h-4 w-4 mr-2" />
-                    Filters
-                    {hasActiveFilters && (
-                      <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
-                    )}
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80">
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-6">
-                    <FilterContent />
-                  </div>
-                </SheetContent>
-              </Sheet>
+                  {/* Mobile Filter Button */}
+                  <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="md:hidden h-10">
+                        <SlidersHorizontal className="h-4 w-4 mr-2" />
+                        Filters
+                        {hasActiveFilters && (
+                          <Badge className="ml-2 bg-[#F47524] text-white">!</Badge>
+                        )}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-80">
+                      <SheetHeader>
+                        <SheetTitle>Filters</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6">
+                        <FilterContent />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          {/* Desktop Sidebar */}
-          <aside className="hidden md:block w-72 flex-shrink-0">
-            <div className="bg-white rounded-xl p-6 shadow-sm sticky top-36">
-              <h2 className="font-semibold text-lg text-gray-900 mb-6">Filters</h2>
-              <FilterContent />
+          {/* Hero */}
+          <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
+            <div className="max-w-7xl mx-auto px-4 text-center">
+              <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-4">
+                <Briefcase className="h-5 w-5" />
+                <span className="text-sm font-medium">Expert Professionals</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
+                Hire Top Construction Professionals
+              </h1>
+              <p className="text-gray-300 max-w-2xl mx-auto">
+                Connect with verified Civil Engineers, Architects, Quantity Surveyors, and more for your dream project.
+              </p>
             </div>
-          </aside>
+          </div>
 
-          {/* Main Content */}
-          <div className="flex-1">
-             <div className="flex items-center justify-between mb-6">
+          <div className="px-4 py-8 max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
               <p className="text-gray-600">
                 <span className="font-semibold text-gray-900">{sortedProfiles.length}</span> professionals found
               </p>
@@ -335,7 +337,7 @@ export default function Professionals() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl shadow-sm">
+              <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
                 <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Briefcase className="h-8 w-8 text-gray-400" />
                 </div>
@@ -343,6 +345,9 @@ export default function Professionals() {
                 <p className="text-gray-500 max-w-sm mx-auto">
                   Try adjusting your filters or search terms to find what you're looking for.
                 </p>
+                <Button onClick={clearFilters} variant="outline" className="mt-4 border-gray-200">
+                  Clear All Filters
+                </Button>
               </div>
             )}
           </div>

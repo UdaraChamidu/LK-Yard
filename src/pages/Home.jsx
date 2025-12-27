@@ -115,7 +115,7 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 lg:pl-64 transition-all duration-300">
           {/* Search Bar - Moved Inside Content */}
-          <div className="bg-white border-b py-4 sticky top-16 z-20 shadow-sm">
+          <div className="glass py-4 sticky top-16 z-20">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
               <form onSubmit={handleSearch} className="flex gap-2">
                 <div className="relative flex-1 group">

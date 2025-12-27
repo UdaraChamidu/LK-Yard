@@ -234,51 +234,70 @@ export default function Layout({ children, currentPageName }) {
       <main>{children}</main>
 
       {/* Footer */}
-      <footer className="bg-[#111111] text-white mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
+      <footer className={`bg-[#111111] text-white mt-auto transition-all duration-300 ${
+        ['Home', 'BuySell', 'Subcontractors', 'HireMachines', 'Professionals', 'Jobs'].includes(currentPageName) 
+          ? 'lg:pl-64' 
+          : ''
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+            <div className="col-span-2 md:col-span-2">
+              <div className="flex items-center gap-2 mb-3">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69480f5d3b7800a9469b8931/e59d0284e_image.png"
                   alt="LKYard"
-                  className="w-8 h-8 object-contain"
+                  className="w-6 h-6 object-contain"
                 />
-                <span className="text-lg font-semibold font-['Poppins']">LKYard</span>
+                <span className="text-base font-semibold font-['Poppins'] text-xl">LKYard</span>
               </div>
-              <p className="text-gray-400 text-sm">
-                Sri Lanka's trusted construction marketplace for materials, services, and professionals.
+              <p className="text-gray-400 text-s max-w-sm leading-relaxed">
+                Sri Lanka's trusted construction marketplace. Connect with professionals, find jobs, hire machines, and buy materials.
               </p>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4 font-heading">Categories</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to={createPageUrl('BuySell')} className="hover:text-white">Tools & Materials</Link></li>
-                <li><Link to={createPageUrl('Subcontractors')} className="hover:text-white">Subcontractors</Link></li>
-                <li><Link to={createPageUrl('HireMachines')} className="hover:text-white">Machine Hire</Link></li>
-                <li><Link to={createPageUrl('Professionals')} className="hover:text-white">Professionals</Link></li>
+              <h4 className="font-semibold mb-3 font-heading text-lg text-gray-200">Platform</h4>
+              <ul className="space-y-1.5 text-s text-gray-400">
+                <li><Link to={createPageUrl('BuySell')} className="hover:text-white transition-colors">Tools & Materials</Link></li>
+                <li><Link to={createPageUrl('Subcontractors')} className="hover:text-white transition-colors">Subcontractors</Link></li>
+                <li><Link to={createPageUrl('HireMachines')} className="hover:text-white transition-colors">Machine Hire</Link></li>
+                <li><Link to={createPageUrl('Professionals')} className="hover:text-white transition-colors">Professionals</Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-4 font-heading">Support</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="#" className="hover:text-white">Help Center</Link></li>
-                <li><Link to="#" className="hover:text-white">Safety Tips</Link></li>
-                <li><Link to="#" className="hover:text-white">Contact Us</Link></li>
-                <li><Link to="#" className="hover:text-white">FAQ</Link></li>
+              <h4 className="font-semibold mb-3 font-heading text-lg text-gray-200">Support</h4>
+              <ul className="space-y-1.5 text-s text-gray-400">
+                <li><Link to="#" className="hover:text-white transition-colors">Help Center</Link></li>
+                <li><Link to="#" className="hover:text-white transition-colors">Safety Tips</Link></li>
+                <li><Link to="#" className="hover:text-white transition-colors">Contact Us</Link></li>
+                <li><Link to="#" className="hover:text-white transition-colors">FAQ</Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-4 font-heading">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="#" className="hover:text-white">Terms of Service</Link></li>
-                <li><Link to="#" className="hover:text-white">Privacy Policy</Link></li>
-                <li><Link to="#" className="hover:text-white">Cookie Policy</Link></li>
+              <h4 className="font-semibold mb-3 font-heading text-lg text-gray-200">Developers</h4>
+              <ul className="space-y-2 text-xs text-gray-400">
+                <li className="flex flex-col">
+                  <span className="text-gray-300 font-medium">Udara Chamidu</span>
+                  <a href="mailto:udara@example.com" className="hover:text-white transition-colors">chamiduudara321@gmail.com</a>
+                  <span className="text-[10px] text-gray-500">+94 76 172 0686</span>
+                </li>
+                <li className="flex flex-col">
+                  <span className="text-gray-300 font-medium">Charaka Viduranga</span>
+                  <a href="mailto:charaka@example.com" className="hover:text-white transition-colors">charaka@viduranga1@gmail.com</a>
+                  <span className="text-[10px] text-gray-500">+94 71 987 6543</span>
+                </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
-            © 2024 LKYard.lk. All rights reserved.
+          
+          <div className="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-s text-gray-500">
+            <p>© 2024 LKYard.lk. All rights reserved.</p>
+            <div className="flex gap-4">
+              <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            </div>
           </div>
         </div>
       </footer>

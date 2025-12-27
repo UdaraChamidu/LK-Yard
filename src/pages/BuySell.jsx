@@ -258,7 +258,7 @@ export default function BuySell() {
         {/* Main Content */}
         <div className="flex-1 md:pl-64 transition-all duration-300">
           {/* Header (Search & Sort) - Moved Inside Content */}
-          <div className="bg-white border-b sticky top-16 z-20 shadow-sm">
+          <div className="glass sticky top-16 z-20">
             <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex flex-col md:flex-row md:items-center gap-4">
                 {/* Search */}
@@ -367,13 +367,13 @@ export default function BuySell() {
             </div>
 
             {isLoading ? (
-              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-4`}>
-                {[...Array(6)].map((_, i) => (
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-4`}>
+                {[...Array(8)].map((_, i) => (
                   <div key={i} className="bg-gray-100 rounded-xl h-64 animate-pulse" />
                 ))}
               </div>
             ) : sortedListings.length > 0 ? (
-              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-4`}>
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-4`}>
                 {sortedListings.map((listing) => (
                   <ListingCard key={listing.id} listing={listing} variant={viewMode} />
                 ))}
