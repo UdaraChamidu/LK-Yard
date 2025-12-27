@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
   Search, Filter, MapPin, Star, ChevronDown, X,
-  SlidersHorizontal, BadgeCheck, Users
+  SlidersHorizontal, BadgeCheck, Users, Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -245,7 +245,7 @@ export default function Subcontractors() {
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 ${
                 selectedCategory === cat.value
                   ? 'bg-[#F47524] text-white'
-                  : 'hover:bg-gray-100 text-[#616367]'
+                  : 'hover:bg-orange-50 hover:text-[#F47524] text-[#616367]'
               }`}
             >
               <span>{cat.icon}</span>
@@ -465,15 +465,52 @@ export default function Subcontractors() {
             </div>
           </div>
 
-          {/* Hero */}
-          <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
-            <div className="max-w-7xl mx-auto px-4 text-center">
-              <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-                Find Skilled Subcontractors
-              </h1>
-              <p className="text-gray-300 max-w-2xl mx-auto">
-                Connect with verified masons, plumbers, electricians, painters, and more across Sri Lanka
-              </p>
+          {/* Hero & Description */}
+          <div className="bg-gradient-to-b from-orange-50/50 to-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 py-10">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-[#F47524]/10 text-[#F47524] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                      Skilled Labor
+                    </span>
+                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                      <Users className="h-3 w-3" /> 200+ Teams
+                    </span>
+                  </div>
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                    Find Reliable <br/>
+                    <span className="text-[#F47524]">Subcontractors</span>
+                  </h1>
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                    Connect with experienced subcontractors for specialized construction work. 
+                    From masonry and plumbing to electrical and painting, find reliable teams ready to tackle your project with precision.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <BadgeCheck className="h-4 w-4 text-green-500" />
+                      <span>Verified Teams</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <Briefcase className="h-4 w-4 text-blue-500" />
+                      <span>Portfolio Reviewed</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 min-w-[200px]">
+                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-gray-500">Available Teams</p>
+                      <p className="text-xl font-bold text-gray-900">150+</p>
+                    </div>
+                    <div className="h-10 w-10 bg-orange-50 rounded-full flex items-center justify-center text-[#F47524]">
+                      <Users className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

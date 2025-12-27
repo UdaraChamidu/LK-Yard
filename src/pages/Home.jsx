@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { 
   Search, Eye, ThumbsUp, Clock, Plus, 
   Hammer, Users, Truck, Wrench, Building2, Home as HomeIcon,
-  Grid3X3, List
+  Grid3X3, List, Check, ArrowRight
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -73,8 +73,8 @@ export default function Home() {
               const isSelected = cat.id === 'all' && selectedCategory === 'all';
               const classes = `w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200 group ${
                   isSelected
-                    ? 'bg-primary/10 text-primary font-medium'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-[#F47524]/10 text-[#F47524] font-medium'
+                  : 'text-gray-600 hover:bg-orange-50 hover:text-[#F47524]'
                 }`;
 
               const content = (
@@ -135,22 +135,81 @@ export default function Home() {
           </div>
 
           <div className="px-4 py-6 md:px-8 space-y-8 max-w-7xl mx-auto">
-            {/* CTA Banner */}
-            <div className="bg-gradient-to-r from-primary via-orange-500 to-orange-600 rounded-2xl p-8 text-white shadow-glow relative overflow-hidden group">
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 rounded-2xl" />
-              <div className="relative z-10">
-                <h1 className="text-2xl md:text-3xl font-bold font-heading mb-2">
-                  Post Your Construction Ad
-                </h1>
-                <p className="text-white/90 mb-6 font-sans">
-                  Reach thousands of customers looking for construction services
-                </p>
-                <Link to={createPageUrl('PostAd')}>
-                  <Button className="bg-white text-primary hover:bg-gray-50 h-11 border-none font-semibold shadow-lg">
-                    <Plus className="mr-2 h-5 w-5" />
-                    Post Ad Now
-                  </Button>
-                </Link>
+            {/* Purpose & CTA Section */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Purpose Section */}
+              <div className="md:col-span-2 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm relative overflow-hidden">
+                <div className="relative z-10">
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                    Welcome to 
+                    <span className="text-[#F47524]">    LKYard</span>
+                  </h1>
+                  <p className="text-gray-600 leading-relaxed mb-6 max-w-2xl">
+                    Sri Lanka's premier construction marketplace. We connect you with top-rated professionals, high-quality tools, reliable machinery, and skilled labor. Whether you're building a dream home or managing a large project, find everything you need in one place.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+                      <Users className="h-4 w-4 text-[#F47524]" />
+                      <span>Verified Pros</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+                      <Truck className="h-4 w-4 text-[#F47524]" />
+                      <span>Quality Machines</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+                      <Hammer className="h-4 w-4 text-[#F47524]" />
+                      <span>Best Tools</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute right-0 bottom-0 opacity-5">
+                  <HomeIcon className="w-64 h-64 -mb-12 -mr-12" />
+                </div>
+              </div>
+
+              {/* Mini CTA */}
+              <div className="bg-gradient-to-br from-[#F47524] to-[#cc5500] rounded-2xl p-6 text-white shadow-lg flex flex-col relative overflow-hidden group">
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="mb-4">
+                    <div className="bg-white/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+                      <Plus className="h-6 w-6 text-white" />
+                    </div>
+                    <h2 className="text-xl font-bold font-heading mb-1">Post Your Ad</h2>
+                    <p className="text-orange-100 text-sm">Start selling in minutes</p>
+                  </div>
+
+                  <ul className="space-y-3 mb-6 flex-1">
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="p-1 bg-white/20 rounded-full">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span className="font-medium text-orange-50">Reach 10k+ active buyers</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="p-1 bg-white/20 rounded-full">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span className="font-medium text-orange-50">Free for first 30 days</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="p-1 bg-white/20 rounded-full">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span className="font-medium text-orange-50">Instant approval</span>
+                    </li>
+                  </ul>
+                  
+                  <Link to={createPageUrl('PostAd')} className="mt-auto">
+                    <Button className="w-full bg-white text-[#F47524] hover:bg-orange-50 font-semibold shadow-md border-0 h-11">
+                      Post Free Ad Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+                
+                {/* Decorative Circles */}
+                <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
+                <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-black/5 rounded-full blur-3xl" />
               </div>
             </div>
 

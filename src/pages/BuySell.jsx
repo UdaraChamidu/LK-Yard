@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
   Search, Filter, Grid3X3, List, ChevronDown, X, 
-  SlidersHorizontal, MapPin, BadgeCheck
+  SlidersHorizontal, MapPin, BadgeCheck, Shield, Sparkles, Truck, ShoppingBag
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -162,7 +162,7 @@ export default function BuySell() {
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 selectedSubcategory === sub
                   ? 'bg-[#F47524] text-white'
-                  : 'hover:bg-gray-100 text-gray-700'
+                  : 'hover:bg-orange-50 hover:text-[#F47524] text-gray-700'
               }`}
             >
               {sub}
@@ -257,7 +257,7 @@ export default function BuySell() {
 
         {/* Main Content */}
         <div className="flex-1 md:pl-64 transition-all duration-300">
-          {/* Header (Search & Sort) - Moved Inside Content */}
+          {/* Header (Search & Sort) - Sticky Top */}
           <div className="glass sticky top-16 z-20">
             <div className="max-w-7xl mx-auto px-4 py-4">
               <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -355,6 +355,68 @@ export default function BuySell() {
                   )}
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Hero & Description */}
+          <div className="bg-gradient-to-b from-orange-50/50 to-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 py-10">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-[#F47524]/10 text-[#F47524] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                      Marketplace
+                    </span>
+                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                      <MapPin className="h-3 w-3" /> Island-wide
+                    </span>
+                  </div>
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                    Construction Tools & <br/>
+                    <span className="text-[#F47524]">Building Materials</span>
+                  </h1>
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                    Discover the best deals on high-quality construction equipment, power tools, and raw materials. 
+                    Whether you're a contractor or a DIY enthusiast, find everything you need from verified sellers across Sri Lanka.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <BadgeCheck className="h-4 w-4 text-green-500" />
+                      <span>Verified Sellers</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <Truck className="h-4 w-4 text-blue-500" />
+                      <span>Island-wide Delivery</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <Shield className="h-4 w-4 text-purple-500" />
+                      <span>Buyer Protection</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 min-w-[200px]">
+                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-gray-500">Active Listings</p>
+                      <p className="text-xl font-bold text-gray-900">500+</p>
+                    </div>
+                    <div className="h-10 w-10 bg-orange-50 rounded-full flex items-center justify-center text-[#F47524]">
+                      <ShoppingBag className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-gray-500">New Today</p>
+                      <p className="text-xl font-bold text-gray-900">45</p>
+                    </div>
+                    <div className="h-10 w-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
+                      <Sparkles className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

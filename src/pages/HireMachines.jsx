@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
   Search, Filter, MapPin, Calendar, ChevronDown, X,
-  SlidersHorizontal, Truck, Clock
+  SlidersHorizontal, Truck, Clock, BadgeCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -135,7 +135,7 @@ export default function HireMachines() {
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 selectedType === type.value
                   ? 'bg-[#F47524] text-white'
-                  : 'hover:bg-gray-100 text-gray-700'
+                  : 'hover:bg-orange-50 hover:text-[#F47524] text-gray-700'
               }`}
             >
               {type.label}
@@ -274,19 +274,52 @@ export default function HireMachines() {
             </div>
           </div>
 
-          {/* Hero */}
-          <div className="bg-gradient-to-r from-green-900 to-green-700 text-white py-12">
-            <div className="max-w-7xl mx-auto px-4 text-center">
-              <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-4">
-                <Truck className="h-5 w-5" />
-                <span className="text-sm font-medium">Machine Rental</span>
+          {/* Hero & Description */}
+          <div className="bg-gradient-to-b from-green-50/50 to-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 py-10">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                      Machine Rental
+                    </span>
+                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                      <Truck className="h-3 w-3" /> 50+ Types
+                    </span>
+                  </div>
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                    Rent Heavy <br/>
+                    <span className="text-green-600">Construction Machinery</span>
+                  </h1>
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                    Access a wide range of heavy machinery for any project size. 
+                    From excavators and backhoes to cranes and dump trucks, rent directly from verified owners at competitive rates.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <BadgeCheck className="h-4 w-4 text-green-500" />
+                      <span>Verified Owners</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <Clock className="h-4 w-4 text-blue-500" />
+                      <span>Daily & Monthly Rates</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 min-w-[200px]">
+                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-gray-500">Available Machines</p>
+                      <p className="text-xl font-bold text-gray-900">300+</p>
+                    </div>
+                    <div className="h-10 w-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
+                      <Truck className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-                Hire Construction Machinery
-              </h1>
-              <p className="text-green-100 max-w-2xl mx-auto">
-                Rent excavators, JCBs, lorries, cranes and more from verified owners across Sri Lanka
-              </p>
             </div>
           </div>
 

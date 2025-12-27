@@ -142,7 +142,7 @@ export default function Professionals() {
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 selectedDesignation === des.value
                   ? 'bg-[#F47524] text-white'
-                  : 'hover:bg-gray-100 text-gray-700'
+                  : 'hover:bg-orange-50 hover:text-[#F47524] text-gray-700'
               }`}
             >
               {des.label}
@@ -301,19 +301,52 @@ export default function Professionals() {
             </div>
           </div>
 
-          {/* Hero */}
-          <div className="bg-gradient-to-r from-[#111111] to-[#2d2d2d] text-white py-12">
-            <div className="max-w-7xl mx-auto px-4 text-center">
-              <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-4">
-                <Briefcase className="h-5 w-5" />
-                <span className="text-sm font-medium">Expert Professionals</span>
+          {/* Hero & Description */}
+          <div className="bg-gradient-to-b from-purple-50/50 to-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 py-10">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                      Expert Services
+                    </span>
+                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                      <Briefcase className="h-3 w-3" /> Licensed Pros
+                    </span>
+                  </div>
+                  <h1 className="text-3xl font-bold text-gray-900 font-heading mb-4 leading-tight">
+                    Hire Top <br/>
+                    <span className="text-purple-600">Construction Professionals</span>
+                  </h1>
+                  <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-6">
+                    Connect with qualified experts including Civil Engineers, Architects, and Quantity Surveyors. 
+                    Ensure your project meets the highest industry standards with professional guidance.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <BadgeCheck className="h-4 w-4 text-green-500" />
+                      <span>Identity Verified</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      <span>Top Rated</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 min-w-[200px]">
+                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-gray-500">Active Pros</p>
+                      <p className="text-xl font-bold text-gray-900">120+</p>
+                    </div>
+                    <div className="h-10 w-10 bg-purple-50 rounded-full flex items-center justify-center text-purple-600">
+                      <Briefcase className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold font-['Poppins'] mb-4">
-                Hire Top Construction Professionals
-              </h1>
-              <p className="text-gray-300 max-w-2xl mx-auto">
-                Connect with verified Civil Engineers, Architects, Quantity Surveyors, and more for your dream project.
-              </p>
             </div>
           </div>
 
