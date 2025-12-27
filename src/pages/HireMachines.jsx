@@ -288,8 +288,8 @@ export default function HireMachines() {
                     </span>
                   </div>
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
-                    Rent Heavy <br/>
-                    <span className="text-green-600">Construction Machinery</span>
+                    Rent Heavy 
+                    <span className="text-green-600">    Construction Machinery</span>
                   </h1>
                   <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Access a wide range of heavy machinery for any project size. 
@@ -309,15 +309,7 @@ export default function HireMachines() {
                 </div>
 
                 <div className="flex flex-col gap-3 min-w-[200px]">
-                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-gray-500">Available Machines</p>
-                      <p className="text-xl font-bold text-gray-900">300+</p>
-                    </div>
-                    <div className="h-10 w-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
-                      <Truck className="h-5 w-5" />
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>

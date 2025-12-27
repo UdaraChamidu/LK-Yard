@@ -364,7 +364,7 @@ export default function BuySell() {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="bg-[#F47524]/10 text-[#F47524] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       Marketplace
                     </span>
                     <span className="text-gray-400 text-sm flex items-center gap-1">
@@ -372,8 +372,8 @@ export default function BuySell() {
                     </span>
                   </div>
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
-                    Construction Tools & <br/>
-                    <span className="text-[#F47524]">Building Materials</span>
+                    Construction Tools & 
+                    <span className="text-red-600">    Building Materials</span>
                   </h1>
                   <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Discover the best deals on high-quality construction equipment, power tools, and raw materials. 
@@ -392,27 +392,6 @@ export default function BuySell() {
                     <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
                       <Shield className="h-4 w-4 text-purple-500" />
                       <span>Buyer Protection</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 min-w-[200px]">
-                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-gray-500">Active Listings</p>
-                      <p className="text-xl font-bold text-gray-900">500+</p>
-                    </div>
-                    <div className="h-10 w-10 bg-orange-50 rounded-full flex items-center justify-center text-[#F47524]">
-                      <ShoppingBag className="h-5 w-5" />
-                    </div>
-                  </div>
-                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-gray-500">New Today</p>
-                      <p className="text-xl font-bold text-gray-900">45</p>
-                    </div>
-                    <div className="h-10 w-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
-                      <Sparkles className="h-5 w-5" />
                     </div>
                   </div>
                 </div>

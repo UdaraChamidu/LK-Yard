@@ -471,7 +471,7 @@ export default function Subcontractors() {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="bg-[#F47524]/10 text-[#F47524] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <span className="bg-yellow-100 text-yellow-500 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
                       Skilled Labor
                     </span>
                     <span className="text-gray-400 text-sm flex items-center gap-1">
@@ -479,8 +479,8 @@ export default function Subcontractors() {
                     </span>
                   </div>
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
-                    Find Reliable <br/>
-                    <span className="text-[#F47524]">Subcontractors</span>
+                    Find Reliable 
+                    <span className="text-yellow-400">    Subcontractors</span>
                   </h1>
                   <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Connect with experienced subcontractors for specialized construction work. 
@@ -501,13 +501,6 @@ export default function Subcontractors() {
 
                 <div className="flex flex-col gap-3 min-w-[200px]">
                   <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-gray-500">Available Teams</p>
-                      <p className="text-xl font-bold text-gray-900">150+</p>
-                    </div>
-                    <div className="h-10 w-10 bg-orange-50 rounded-full flex items-center justify-center text-[#F47524]">
-                      <Users className="h-5 w-5" />
-                    </div>
                   </div>
                 </div>
               </div>

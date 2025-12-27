@@ -315,8 +315,8 @@ export default function Professionals() {
                     </span>
                   </div>
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
-                    Hire Top <br/>
-                    <span className="text-purple-600">Construction Professionals</span>
+                    Hire Top 
+                    <span className="text-purple-600">    Construction Professionals</span>
                   </h1>
                   <p className="text-gray-600 text-sm leading-relaxed max-w-xl mb-4">
                     Connect with qualified experts including Civil Engineers, Architects, and Quantity Surveyors. 
@@ -336,15 +336,7 @@ export default function Professionals() {
                 </div>
 
                 <div className="flex flex-col gap-3 min-w-[200px]">
-                  <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-gray-500">Active Pros</p>
-                      <p className="text-xl font-bold text-gray-900">120+</p>
-                    </div>
-                    <div className="h-10 w-10 bg-purple-50 rounded-full flex items-center justify-center text-purple-600">
-                      <Briefcase className="h-5 w-5" />
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>

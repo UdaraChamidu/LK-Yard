@@ -134,17 +134,17 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="px-4 py-6 md:px-8 space-y-8 max-w-7xl mx-auto">
+          <div className="px-4 py-4 md:px-8 space-y-8 max-w-7xl mx-auto">
             {/* Purpose & CTA Section */}
             <div className="grid md:grid-cols-3 gap-6">
               {/* Purpose Section */}
-              <div className="md:col-span-2 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden">
+              <div className="md:col-span-2 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm relative overflow-hidden">
                 <div className="relative z-10">
                   <h1 className="text-3xl font-bold text-gray-900 font-heading mb-2 leading-tight">
                     Welcome to 
                     <span className="text-[#F47524]">    LKYard</span>
                   </h1>
-                  <p className="text-gray-600 leading-relaxed mb-6 max-w-2xl">
+                  <p className="text-gray-600 leading-relaxed mb-4 max-w-2xl">
                     Sri Lanka's premier construction marketplace. We connect you with top-rated professionals, high-quality tools, reliable machinery, and skilled labor. Whether you're building a dream home or managing a large project, find everything you need in one place.
                   </p>
                   <div className="flex flex-wrap gap-4">
@@ -168,14 +168,16 @@ export default function Home() {
               </div>
 
               {/* Mini CTA */}
-              <div className="bg-gradient-to-br from-[#F47524] to-[#cc5500] rounded-2xl p-6 text-white shadow-lg flex flex-col relative overflow-hidden group">
+              <div className="bg-gradient-to-br from-[#F47524] to-[#cc5500] rounded-2xl p-4 text-white shadow-lg flex flex-col relative overflow-hidden group">
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="mb-4">
-                    <div className="bg-white/20 w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="bg-white/20 w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Plus className="h-6 w-6 text-white" />
                     </div>
-                    <h2 className="text-xl font-bold font-heading mb-1">Post Your Ad</h2>
-                    <p className="text-orange-100 text-sm">Start selling in minutes</p>
+                    <div>
+                      <h2 className="text-xl font-bold font-heading leading-tight">Post Your Ad</h2>
+                      <p className="text-orange-100 text-sm">Start selling in minutes</p>
+                    </div>
                   </div>
 
                   <ul className="space-y-3 mb-6 flex-1">
@@ -185,12 +187,7 @@ export default function Home() {
                       </div>
                       <span className="font-medium text-orange-50">Reach 10k+ active buyers</span>
                     </li>
-                    <li className="flex items-center gap-2 text-sm">
-                      <div className="p-1 bg-white/20 rounded-full">
-                        <Check className="h-3 w-3" />
-                      </div>
-                      <span className="font-medium text-orange-50">Free for first 30 days</span>
-                    </li>
+
                     <li className="flex items-center gap-2 text-sm">
                       <div className="p-1 bg-white/20 rounded-full">
                         <Check className="h-3 w-3" />
